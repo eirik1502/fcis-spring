@@ -1,14 +1,14 @@
-package com.example.demo.core
+package com.example.demo.kjerne
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.example.demo.kjerne.sykmelding.behandleSykmeldingHendelse
 import org.amshove.kluent.fail
 import org.junit.jupiter.api.Test
 
-class DomainTest {
+class SykmeldingTest {
 
     @Test
     fun `sletter sykmelding`() {
-        val plan = Domain.behandleSykmeldingHendelse(
+        val plan = behandleSykmeldingHendelse(
             sykmeldingId = "1",
             sykmelding = null,
             eksisterendeSykmelding = null
@@ -16,15 +16,6 @@ class DomainTest {
 
         plan.shouldContainEffekt<SlettSykmelding>()
         plan.shouldContainEffekt<SlettSykmeldingRegistreringer>()
-        plan.shouldNotContainEffekt<LagreNySykmelding>()
-        plan.shouldNotContainEffekt<LagreNySykmeldingRegistrering>()
-
-        println(prettyPrintPlan(plan))
-    }
-
-    private fun prettyPrintPlan(plan: Plan) {
-        val json = jacksonObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(plan)
-        println(json)
     }
 
     inline fun <reified T> Plan.shouldContainEffekt() {

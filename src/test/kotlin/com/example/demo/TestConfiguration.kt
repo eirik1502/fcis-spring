@@ -13,16 +13,15 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @TestConfiguration
 @Testcontainers
 class TestConfiguration {
-    
+
     companion object {
         @Container
-        val postgresContainer = PostgreSQLContainer<Nothing>("postgres:15").apply {
+        val postgresContainer = PostgreSQLContainer<Nothing>("postgres:18").apply {
             withDatabaseName("testdb")
             withUsername("test")
             withPassword("test")
-            withInitScript("init-test.sql")
         }
-        
+
         @JvmStatic
         @DynamicPropertySource
         fun configureProperties(registry: DynamicPropertyRegistry) {
