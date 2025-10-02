@@ -8,27 +8,23 @@ fun behandleSykmeldingHendelse(
     sykmeldingId: String,
     sykmelding: Sykmelding? = null,
     eksisterendeSykmelding: Sykmelding? = null
-): Plan {
-    return if (sykmelding == null) {
-        Plan(
-            SlettSykmelding(sykmeldingId = sykmeldingId),
-            SlettSykmeldingRegistreringer(sykmeldingId = sykmeldingId),
-        )
-    } else if (eksisterendeSykmelding == null) {
-        Plan(
-            OppdaterSykmelding(sykmeldingId = sykmeldingId, sykmelding = sykmelding),
-        )
-    } else {
-        Plan(
-            LagreNySykmelding(sykmelding = sykmelding),
-            LagreNySykmeldingRegistrering(
+) = byggPlan {
+    when {
+        sykmelding != null && eksisterendeSykmelding == null -> {
+            +LagreNySykmelding(sykmelding = sykmelding)
+            +LagreNySykmeldingRegistrering(
                 registrering = SykmeldingRegistrering(status = SykmeldingStatus.APEN)
-            ),
-            UtførKommando(
-                kommando = Kommando.SynkroniserArbeidsforhold(
-                    fnr = eksisterendeSykmelding.fnr
-                )
             )
-        )
+            +Kommando.SynkroniserArbeidsforhold(
+                fnr = sykmelding.fnr
+            )
+        }
+        sykmelding != null && eksisterendeSykmelding != null -> {
+            +OppdaterSykmelding(sykmeldingId = sykmeldingId, sykmelding = sykmelding)
+        }
+        else -> {
+            +SlettSykmelding(sykmeldingId = sykmeldingId)
+            +SlettSykmeldingRegistreringer(sykmeldingId = sykmeldingId)
+        }
     }
 }

@@ -1,11 +1,14 @@
 package com.example.demo.skall
 
 import com.example.demo.TestConfiguration
+import com.example.demo.Testdata
 import com.example.demo.kjerne.Kommando
 import com.example.demo.kjerne.Plan
 import com.example.demo.kjerne.sykmelding.Sykmelding
 import com.example.demo.kjerne.sykmelding.SykmeldingDTO
 import com.example.demo.kjerne.sykmelding.behandleSykmeldingHendelse
+import com.example.demo.sykmelding
+import com.example.demo.sykmeldingDTO
 import io.mockk.*
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -48,7 +51,7 @@ class KommandoUtførerTest {
         fun `burde behandle uten eksisterende`() {
             kommandoUtfører.utfør(Kommando.HåndterSykmeldingHendelse(
                 sykmeldingId = "1",
-                sykmelding = lagTestSykmeldingDTO()
+                sykmelding = Testdata.sykmeldingDTO()
             ))
 
             verify { behandleSykmeldingHendelse(
@@ -61,12 +64,12 @@ class KommandoUtførerTest {
         @Test
         fun `burde behandle med eksisterende`() {
             sykmeldingRepository.save(
-                lagTestSykmelding(sykmeldingId = "1")
+                Testdata.sykmelding(sykmeldingId = "1")
             )
 
             kommandoUtfører.utfør(Kommando.HåndterSykmeldingHendelse(
                 sykmeldingId = "1",
-                sykmelding = lagTestSykmeldingDTO()
+                sykmelding = Testdata.sykmeldingDTO()
             ))
 
             verify { behandleSykmeldingHendelse(
@@ -91,29 +94,5 @@ class KommandoUtførerTest {
         }
     }
 }
-
-fun lagTestSykmeldingDTO(
-    sykmeldingId: String = "sykmeldingId",
-    fnr: String = "fnr",
-    fom: LocalDate = LocalDate.parse("2025-08-01"),
-    tom: LocalDate = LocalDate.parse("2025-08-30"),
-) = SykmeldingDTO(
-    sykmeldingId = sykmeldingId,
-    fnr = fnr,
-    fom = fom,
-    tom = tom,
-)
-
-fun lagTestSykmelding(
-    sykmeldingId: String = "sykmeldingId",
-    fnr: String = "fnr",
-    fom: LocalDate = LocalDate.parse("2025-08-01"),
-    tom: LocalDate = LocalDate.parse("2025-08-30"),
-) = Sykmelding(
-    sykmeldingId = sykmeldingId,
-    fnr = fnr,
-    fom = fom,
-    tom = tom,
-)
 
 inline fun <reified T : Any> MockKMatcherScope.matchNotNull() = this.matchNullable<T> { it != null }

@@ -11,6 +11,32 @@ data class Plan(
     constructor(vararg effekter: Effekt) : this(effekter = effekter.toList())
 }
 
+fun byggPlan(bygger: PlanBygger.() -> Unit): Plan {
+    return PlanBygger().apply(bygger).bygg()
+}
+
+class PlanBygger {
+    private val effekter: MutableList<Effekt> = mutableListOf()
+
+    fun effekt(effekt: Effekt) {
+        effekter.add(effekt)
+    }
+
+    fun kommando(kommando: Kommando) {
+        effekter.add(UtførKommando(kommando = kommando))
+    }
+
+    operator fun Effekt.unaryPlus() {
+        effekt(this)
+    }
+
+    operator fun Kommando.unaryPlus() {
+        kommando(this)
+    }
+
+    fun bygg(): Plan = Plan(effekter)
+}
+
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.PROPERTY,
