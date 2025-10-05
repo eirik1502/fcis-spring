@@ -1,6 +1,6 @@
 package com.example.demo.kjerne
 
-import com.example.demo.kjerne.sykmelding.SykmeldingDTO
+import com.example.demo.skall.SykmeldingDTO
 
 sealed interface Kommando {
     data class HåndterSykmeldingHendelse(

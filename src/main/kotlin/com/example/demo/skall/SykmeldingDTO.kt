@@ -1,4 +1,4 @@
-package com.example.demo.kjerne.sykmelding
+package com.example.demo.skall
 
 import java.time.LocalDate
 

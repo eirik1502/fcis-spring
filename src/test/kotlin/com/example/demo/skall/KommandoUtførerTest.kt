@@ -4,8 +4,6 @@ import com.example.demo.TestConfiguration
 import com.example.demo.Testdata
 import com.example.demo.kjerne.Kommando
 import com.example.demo.kjerne.Plan
-import com.example.demo.kjerne.sykmelding.Sykmelding
-import com.example.demo.kjerne.sykmelding.SykmeldingDTO
 import com.example.demo.kjerne.sykmelding.behandleSykmeldingHendelse
 import com.example.demo.sykmelding
 import com.example.demo.sykmeldingDTO
@@ -15,13 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
-import java.time.LocalDate
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
 @ActiveProfiles("test")
 @Import(TestConfiguration::class)
-class KommandoUtførerTest {
+class KommandoUtførelseBeskrivelseTest {
     @Autowired
     lateinit var kommandoUtfører: KommandoUtfører
 
@@ -49,7 +46,7 @@ class KommandoUtførerTest {
 
         @Test
         fun `burde behandle uten eksisterende`() {
-            kommandoUtfører.utfør(Kommando.HåndterSykmeldingHendelse(
+            kommandoUtfører.utførKommando(Kommando.HåndterSykmeldingHendelse(
                 sykmeldingId = "1",
                 sykmelding = Testdata.sykmeldingDTO()
             ))
@@ -67,7 +64,7 @@ class KommandoUtførerTest {
                 Testdata.sykmelding(sykmeldingId = "1")
             )
 
-            kommandoUtfører.utfør(Kommando.HåndterSykmeldingHendelse(
+            kommandoUtfører.utførKommando(Kommando.HåndterSykmeldingHendelse(
                 sykmeldingId = "1",
                 sykmelding = Testdata.sykmeldingDTO()
             ))
@@ -81,7 +78,7 @@ class KommandoUtførerTest {
 
         @Test
         fun `burde håndtere tombstone`() {
-            kommandoUtfører.utfør(Kommando.HåndterSykmeldingHendelse(
+            kommandoUtfører.utførKommando(Kommando.HåndterSykmeldingHendelse(
                 sykmeldingId = "1",
                 sykmelding = null
             ))

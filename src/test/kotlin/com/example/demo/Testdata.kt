@@ -1,7 +1,7 @@
 package com.example.demo
 
 import com.example.demo.kjerne.sykmelding.Sykmelding
-import com.example.demo.kjerne.sykmelding.SykmeldingDTO
+import com.example.demo.skall.SykmeldingDTO
 import java.time.LocalDate
 
 object Testdata
