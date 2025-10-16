@@ -9,7 +9,6 @@ import org.springframework.test.context.ActiveProfiles
 @SpringBootTest(classes = [DemoApplication::class])
 @ActiveProfiles("test")
 class DemoApplicationTests {
-
     companion object {
         init {
             TestContainersOppsett.settOpp()

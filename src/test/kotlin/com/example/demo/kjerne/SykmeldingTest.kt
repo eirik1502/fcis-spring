@@ -10,35 +10,38 @@ import org.junit.jupiter.api.Test
 class SykmeldingTest {
     @Test
     fun `burde lagre ny sykmelding`() {
-        val plan = behandleSykmeldingHendelse(
-            sykmeldingId = "1",
-            sykmelding = Testdata.sykmelding(),
-            eksisterendeSykmelding = null
-        )
+        val plan =
+            behandleSykmeldingHendelse(
+                sykmeldingId = "1",
+                sykmelding = Testdata.sykmelding(),
+                eksisterendeSykmelding = null,
+            )
 
-        plan.shouldContainEffekt<LagreNySykmelding>()
+        plan.shouldContainEffekt<LagreSykmelding>()
         plan.shouldContainEffekt<LagreNySykmeldingRegistrering>()
         plan.shouldContainUtførKommandoEffekt<Kommando.SynkroniserArbeidsforhold>()
     }
 
     @Test
     fun `burde oppdatere sykmelding`() {
-        val plan = behandleSykmeldingHendelse(
-            sykmeldingId = "1",
-            sykmelding = Testdata.sykmelding(),
-            eksisterendeSykmelding = Testdata.sykmelding()
-        )
+        val plan =
+            behandleSykmeldingHendelse(
+                sykmeldingId = "1",
+                sykmelding = Testdata.sykmelding(),
+                eksisterendeSykmelding = Testdata.sykmelding(),
+            )
 
         plan.shouldContainEffekt<OppdaterSykmelding>()
     }
 
     @Test
     fun `burde tombstone sykmelding`() {
-        val plan = behandleSykmeldingHendelse(
-            sykmeldingId = "1",
-            sykmelding = null,
-            eksisterendeSykmelding = null
-        )
+        val plan =
+            behandleSykmeldingHendelse(
+                sykmeldingId = "1",
+                sykmelding = null,
+                eksisterendeSykmelding = null,
+            )
 
         plan.shouldContainEffekt<SlettSykmelding>()
         plan.shouldContainEffekt<SlettSykmeldingRegistreringer>()
@@ -52,10 +55,10 @@ class SykmeldingTest {
         return matchendeEffekter.first()
     }
 
-    inline fun <reified K : Kommando> Plan.shouldContainUtførKommandoEffekt(): K {
-        return shouldContainEffekt<UtførKommando>()
-            .kommando.shouldBeInstanceOf<K>()
-    }
+    inline fun <reified K : Kommando> Plan.shouldContainUtførKommandoEffekt(): K =
+        shouldContainEffekt<UtførKommando>()
+            .kommando
+            .shouldBeInstanceOf<K>()
 
     inline fun <reified T> Plan.shouldNotContainEffekt() {
         val effekt = effekter.find { T::class.isInstance(it) }
@@ -63,5 +66,4 @@ class SykmeldingTest {
             fail("Forventet ikke effekt av type ${T::class.simpleName}")
         }
     }
-
 }

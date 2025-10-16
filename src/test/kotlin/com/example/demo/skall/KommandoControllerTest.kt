@@ -1,12 +1,17 @@
 package com.example.demo.skall
 
 import com.example.demo.DemoApplication
+import com.example.demo.KommandoTestData
 import com.example.demo.TestContainersOppsett
 import com.example.demo.kjerne.Kommando
 import com.example.demo.kjerne.Plan
 import com.example.demo.skall.config.JsonConfig
 import com.example.demo.utils.objectMapper
+import org.amshove.kluent.shouldHaveSingleItem
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestFactory
 import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -33,40 +38,59 @@ class KommandoControllerTest {
     @TestConfiguration
     class TestConfig {
         @Bean
-        fun kommandoUtfører(): KommandoUtfører = object : KommandoUtfører {
-            override fun utførKommando(kommando: Kommando): Plan {
-                println("Utfører kommando: $kommando")
-                return Plan(emptyList())
-            }
-        }
+        fun kommandoService(): KommandoServiceFake = KommandoServiceFake()
     }
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-    @Test
-    fun `burde utføre dummy-kommando`() {
-        val request = DummyRequest(kommando = "Test dummy kommando")
-        mockMvc.perform(
-            MockMvcRequestBuilders
-                .post("/dummy-kommando")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)),
-        ).andExpect(MockMvcResultMatchers.status().isOk)
+    @Autowired
+    private lateinit var kommandoService: KommandoServiceFake
+
+    @AfterEach
+    fun afterEach() {
+        kommandoService.reset()
     }
 
-    @Test
-    fun `burde utføre kommando`() {
-        val kommando = Kommando.HåndterSykmeldingHendelse(
-            sykmeldingId = "123",
-            sykmelding = null,
-        )
-        val request = KommandoRequest(kommando = kommando)
-        mockMvc.post("/kommando") {
-            contentType = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(request)
-        }.andExpect {
-            status { isOk() }
-        }
+    @TestFactory
+    fun `burde utføre kommando`() =
+        KommandoTestData
+            .kallAlle()
+            .map { kommando ->
+                DynamicTest.dynamicTest(kommando.type.name) {
+                    val request =
+                        KommandoRequest(kommando = kommando)
+                    mockMvc
+                        .post("/kommando") {
+                            contentType = MediaType.APPLICATION_JSON
+                            content = objectMapper.writeValueAsString(request)
+                        }.andExpect {
+                            status { isOk() }
+                        }
+
+                    kommandoService.utførteKommandoer().shouldHaveSingleItem()
+                    afterEach()
+                }
+            }
+}
+
+class KommandoServiceFake : KommandoService {
+    private val utførteKommandoer = mutableListOf<Kommando>()
+    private val planlagteKommandoer = mutableListOf<Kommando>()
+
+    fun utførteKommandoer(): List<Kommando> = utførteKommandoer.toList()
+
+    fun reset() {
+        utførteKommandoer.clear()
+        planlagteKommandoer.clear()
+    }
+
+    override fun utførKommando(kommando: Kommando) {
+        utførteKommandoer.add(kommando)
+    }
+
+    override fun planleggKommando(kommando: Kommando): Plan {
+        planlagteKommandoer.add(kommando)
+        return Plan(emptyList())
     }
 }

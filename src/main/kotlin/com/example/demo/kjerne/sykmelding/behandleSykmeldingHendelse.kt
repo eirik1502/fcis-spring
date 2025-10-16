@@ -7,16 +7,16 @@ import com.example.demo.skall.SykmeldingStatus
 fun behandleSykmeldingHendelse(
     sykmeldingId: String,
     sykmelding: Sykmelding? = null,
-    eksisterendeSykmelding: Sykmelding? = null
+    eksisterendeSykmelding: Sykmelding? = null,
 ) = byggPlan {
     when {
         sykmelding != null && eksisterendeSykmelding == null -> {
-            +LagreNySykmelding(sykmelding = sykmelding)
+            +LagreSykmelding(sykmelding = sykmelding)
             +LagreNySykmeldingRegistrering(
-                registrering = SykmeldingRegistrering(status = SykmeldingStatus.APEN)
+                registrering = SykmeldingRegistrering(status = SykmeldingStatus.APEN),
             )
             +Kommando.SynkroniserArbeidsforhold(
-                fnr = sykmelding.fnr
+                fnr = sykmelding.fnr,
             )
         }
         sykmelding != null && eksisterendeSykmelding != null -> {

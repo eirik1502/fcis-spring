@@ -6,7 +6,7 @@ spring:
   application:
     name: fcis-spring
   datasource:
-    url: jdbc:postgresql://localhost:5432/demo_db
+    url: "${DATABASE_JDBC_URL}&reWriteBatchedInserts=true"
     hikari:
       minimum-idle: 1
       maximum-pool-size: 5
