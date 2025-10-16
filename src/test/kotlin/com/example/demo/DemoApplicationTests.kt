@@ -6,10 +6,15 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
 
-@SpringBootTest
+@SpringBootTest(classes = [DemoApplication::class])
 @ActiveProfiles("test")
-@Import(TestConfiguration::class)
 class DemoApplicationTests {
+
+    companion object {
+        init {
+            TestContainersOppsett.settOpp()
+        }
+    }
 
     @Test
     fun contextLoads() {

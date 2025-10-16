@@ -1,0 +1,8 @@
+# Test Database Configuration
+spring:
+  datasource:
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 3
+  flyway:
+    enabled: true

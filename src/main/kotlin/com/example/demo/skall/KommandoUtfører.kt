@@ -14,17 +14,17 @@ import org.springframework.context.annotation.Configuration
 import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubclassOf
 
+interface KommandoUtfører {
+    fun utførKommando(kommando: Kommando): Plan
+}
+
 @Component
-class KommandoUtfører(
+class KommandoUtførerImpl(
     private val appContext: ApplicationContext,
-    private val planUtfører: PlanUtfører,
-) {
-    fun utførKommando(kommando: Kommando, utførPlan: Boolean = false): Plan {
+) : KommandoUtfører {
+    override fun utførKommando(kommando: Kommando): Plan {
         val kommandoUtførerBeskrivelse = finnKommandoUtfører(kommando::class)
         val plan = kommandoUtførerBeskrivelse.utfør(kommando)
-        if (utførPlan) {
-            planUtfører.utførPlan(plan)
-        }
         return plan
     }
 
@@ -60,7 +60,6 @@ class KommandoUtførerConfig {
     @Bean
     fun synkroniserArbeidsforholdUtfører(
         aaregKlient: AaregKlient,
-        arbeodsforholdRepository: ArbeodsforholdRepository,
     ) = KommandoUtførerBeskrivelse(Kommando.SynkroniserArbeidsforhold::class) {
         synkroniserArbeidsforhold(
             fnr = "1",

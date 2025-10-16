@@ -1,0 +1,14 @@
+# Server Configuration
+server:
+  port: 8080
+
+spring:
+  application:
+    name: fcis-spring
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demo_db
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 5
+  flyway:
+    enabled: true

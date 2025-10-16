@@ -1,12 +1,9 @@
 package com.example.demo.skall
 
-import com.example.demo.TestConfiguration
-import com.example.demo.Testdata
+import com.example.demo.*
 import com.example.demo.kjerne.Kommando
 import com.example.demo.kjerne.Plan
 import com.example.demo.kjerne.sykmelding.behandleSykmeldingHendelse
-import com.example.demo.sykmelding
-import com.example.demo.sykmeldingDTO
 import io.mockk.*
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,9 +12,8 @@ import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest
+@SpringBootTest(classes = [DemoApplication::class])
 @ActiveProfiles("test")
-@Import(TestConfiguration::class)
 class KommandoUtførelseBeskrivelseTest {
     @Autowired
     lateinit var kommandoUtfører: KommandoUtfører
