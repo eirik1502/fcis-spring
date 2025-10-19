@@ -2,8 +2,8 @@ package com.example.demo.skall
 
 import com.example.demo.kjerne.Kommando
 import com.example.demo.kjerne.Plan
+import com.example.demo.skall.rammeverk.KommandoService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController

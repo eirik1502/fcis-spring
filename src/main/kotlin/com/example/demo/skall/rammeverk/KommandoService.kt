@@ -1,10 +1,9 @@
-package com.example.demo.skall
+package com.example.demo.skall.rammeverk
 
 import com.example.demo.kjerne.Kommando
 import com.example.demo.kjerne.Plan
 import com.example.demo.utils.logger
 import org.springframework.stereotype.Service
-import kotlin.math.log
 
 interface KommandoService {
     fun utførKommando(kommando: Kommando)

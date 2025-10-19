@@ -1,34 +1,25 @@
 package com.example.demo.skall
 
-import com.example.demo.DemoApplication
 import com.example.demo.KommandoTestData
-import com.example.demo.TestContainersOppsett
 import com.example.demo.kjerne.Kommando
 import com.example.demo.kjerne.Plan
 import com.example.demo.skall.config.JsonConfig
+import com.example.demo.skall.rammeverk.KommandoService
 import com.example.demo.utils.objectMapper
 import org.amshove.kluent.shouldHaveSingleItem
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DynamicTest
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @WebMvcTest(KommandoController::class)

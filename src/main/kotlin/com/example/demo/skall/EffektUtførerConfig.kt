@@ -1,16 +1,10 @@
 package com.example.demo.skall
 
-import com.example.demo.kjerne.Effekt
 import com.example.demo.kjerne.LagreSykmelding
 import com.example.demo.kjerne.SlettSykmelding
+import com.example.demo.skall.rammeverk.EffektUtfører
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import kotlin.reflect.KClass
-
-class EffektUtfører<E : Effekt>(
-    val effektType: KClass<E>,
-    val utfør: (E) -> Unit,
-)
 
 @Configuration
 class EffektUtførerConfig {

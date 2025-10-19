@@ -1,22 +1,14 @@
 package com.example.demo.skall
 
 import com.example.demo.kjerne.Kommando
-import com.example.demo.kjerne.Plan
 import com.example.demo.kjerne.arbeidsforhold.AaregArbeidsforhold
 import com.example.demo.kjerne.arbeidsforhold.synkroniserArbeidsforhold
 import com.example.demo.kjerne.sykmelding.Sykmelding
 import com.example.demo.kjerne.sykmelding.behandleSykmeldingHendelse
 import com.example.demo.skall.eksternt.AaregKlient
+import com.example.demo.skall.rammeverk.KommandoUtfører
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import kotlin.reflect.KClass
-
-data class KommandoUtfører<K : Kommando>(
-    val kommandoType: KClass<K>,
-    private val utfør: (K) -> Plan,
-) {
-    fun utfør(kommando: K): Plan = utfør.invoke(kommando)
-}
 
 @Configuration
 class KommandoUtførerConfig {

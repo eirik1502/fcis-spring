@@ -1,4 +1,4 @@
-package com.example.demo.skall
+package com.example.demo.skall.rammeverk
 
 import com.example.demo.kjerne.Plan
 import org.springframework.stereotype.Component
