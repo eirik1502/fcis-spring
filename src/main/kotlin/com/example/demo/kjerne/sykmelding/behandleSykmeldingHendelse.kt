@@ -10,9 +10,6 @@ fun behandleSykmeldingHendelse(
     when {
         sykmelding != null && eksisterendeSykmelding == null -> {
             +LagreSykmelding(sykmelding = sykmelding)
-//            +LagreNySykmeldingRegistrering(
-//                registrering = SykmeldingRegistrering(status = SykmeldingStatus.APEN),
-//            )
             +Kommando.SynkroniserArbeidsforhold(
                 fnr = sykmelding.fnr,
             )
@@ -22,7 +19,6 @@ fun behandleSykmeldingHendelse(
         }
         else -> {
             +SlettSykmelding(sykmeldingId = sykmeldingId)
-            +SlettSykmeldingRegistreringer(sykmeldingId = sykmeldingId)
         }
     }
 }
