@@ -1,8 +1,6 @@
 package com.example.demo.kjerne.sykmelding
 
 import com.example.demo.kjerne.*
-import com.example.demo.skall.SykmeldingRegistrering
-import com.example.demo.skall.SykmeldingStatus
 
 fun behandleSykmeldingHendelse(
     sykmeldingId: String,
@@ -12,15 +10,15 @@ fun behandleSykmeldingHendelse(
     when {
         sykmelding != null && eksisterendeSykmelding == null -> {
             +LagreSykmelding(sykmelding = sykmelding)
-            +LagreNySykmeldingRegistrering(
-                registrering = SykmeldingRegistrering(status = SykmeldingStatus.APEN),
-            )
+//            +LagreNySykmeldingRegistrering(
+//                registrering = SykmeldingRegistrering(status = SykmeldingStatus.APEN),
+//            )
             +Kommando.SynkroniserArbeidsforhold(
                 fnr = sykmelding.fnr,
             )
         }
         sykmelding != null && eksisterendeSykmelding != null -> {
-            +OppdaterSykmelding(sykmeldingId = sykmeldingId, sykmelding = sykmelding)
+            +LagreSykmelding(sykmelding = sykmelding.copy(databaseId = eksisterendeSykmelding.databaseId))
         }
         else -> {
             +SlettSykmelding(sykmeldingId = sykmeldingId)

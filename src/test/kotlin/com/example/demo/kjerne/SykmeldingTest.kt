@@ -18,7 +18,7 @@ class SykmeldingTest {
             )
 
         plan.shouldContainEffekt<LagreSykmelding>()
-        plan.shouldContainEffekt<LagreNySykmeldingRegistrering>()
+        plan.shouldContainEffekt<LagreSykmeldingRegistrering>()
         plan.shouldContainUtførKommandoEffekt<Kommando.SynkroniserArbeidsforhold>()
     }
 
@@ -31,7 +31,7 @@ class SykmeldingTest {
                 eksisterendeSykmelding = Testdata.sykmelding(),
             )
 
-        plan.shouldContainEffekt<OppdaterSykmelding>()
+        plan.shouldContainEffekt<LagreSykmelding>()
     }
 
     @Test

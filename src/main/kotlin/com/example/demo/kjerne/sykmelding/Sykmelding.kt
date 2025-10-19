@@ -5,7 +5,7 @@ import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDate
 
 @Table
-class Sykmelding(
+data class Sykmelding(
     @Id
     val databaseId: String? = null,
     val sykmeldingId: String,

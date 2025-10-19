@@ -3,6 +3,7 @@ package com.example.demo.skall.rammeverk
 import com.example.demo.kjerne.Kommando
 import com.example.demo.kjerne.Plan
 import com.example.demo.utils.logger
+import com.example.demo.utils.objectMapper
 import org.springframework.stereotype.Service
 
 interface KommandoService {
@@ -21,14 +22,17 @@ class KommandoServiceImpl(
     override fun utførKommando(kommando: Kommando) {
         val plan = planleggKommando(kommando)
         planUtfører.utførPlan(plan)
-        logger.info("Utført plan" + mapOf("kommando" to kommando.type))
+        logger.info("Utført plan")
     }
 
     override fun planleggKommando(kommando: Kommando): Plan {
         val utfører = planleggerRegister.finnPlanlegger(kommando)
-        logger.info("Fant utfører: " + mapOf("kommando" to kommando.type, "utfører" to utfører))
         val plan = utfører.utfør(kommando)
-        logger.info("Laget plan: " + mapOf("kommando" to kommando.type, "plan" to plan))
+        logger.info(
+            "Planlagt: " +
+                "\n\tkommando: ${objectMapper.writeValueAsString(kommando)}" +
+                "\n\tplan: ${objectMapper.writeValueAsString(plan)}",
+        )
         return plan
     }
 }

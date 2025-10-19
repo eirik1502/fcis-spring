@@ -20,12 +20,20 @@ class PlanBygger {
         effekter.add(effekt)
     }
 
+    fun effekter(effekter: Collection<Effekt>) {
+        this.effekter.addAll(effekter)
+    }
+
     fun kommando(kommando: Kommando) {
         effekter.add(UtførKommando(kommando = kommando))
     }
 
     operator fun Effekt.unaryPlus() {
         effekt(this)
+    }
+
+    operator fun Collection<Effekt>.unaryPlus() {
+        effekter(this)
     }
 
     operator fun Kommando.unaryPlus() {

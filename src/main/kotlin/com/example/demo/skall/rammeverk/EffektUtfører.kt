@@ -17,3 +17,5 @@ fun <E : Effekt> lagEffektUtfører(
 
     override fun utfør(effekt: E) = utfør.invoke(effekt)
 }
+
+inline fun <reified E : Effekt> lagEffektUtfører(noinline utfør: (E) -> Unit) = lagEffektUtfører(effektType = E::class, utfør = utfør)

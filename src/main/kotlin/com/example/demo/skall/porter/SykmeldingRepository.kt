@@ -1,4 +1,4 @@
-package com.example.demo.skall
+package com.example.demo.skall.porter
 
 import com.example.demo.kjerne.sykmelding.Sykmelding
 import org.springframework.data.repository.CrudRepository

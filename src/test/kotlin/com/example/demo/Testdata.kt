@@ -1,10 +1,58 @@
 package com.example.demo
 
+import com.example.demo.kjerne.arbeidsforhold.AaregArbeidsforhold
+import com.example.demo.kjerne.arbeidsforhold.Arbeidsforhold
+import com.example.demo.kjerne.arbeidsforhold.ArbeidsforholdType
 import com.example.demo.kjerne.sykmelding.Sykmelding
 import com.example.demo.skall.SykmeldingDTO
+import java.time.Instant
 import java.time.LocalDate
 
 object Testdata
+
+fun Testdata.aaregArbeidsforhold(
+    navArbeidsforholdId: String = "navArbeidsforholdId",
+    orgnummer: String = "orgnummer",
+    juridiskOrgnummer: String = "juridiskOrgnummer",
+    orgnavn: String = "orgnavn",
+    fom: LocalDate = LocalDate.parse("2020-01-01"),
+    tom: LocalDate? = null,
+    arbeidsforholdType: ArbeidsforholdType? = null,
+): AaregArbeidsforhold =
+    AaregArbeidsforhold(
+        navArbeidsforholdId = navArbeidsforholdId,
+        orgnummer = orgnummer,
+        juridiskOrgnummer = juridiskOrgnummer,
+        orgnavn = orgnavn,
+        fom = fom,
+        tom = tom,
+        arbeidsforholdType = arbeidsforholdType,
+    )
+
+fun Testdata.arbeidsforhold(
+    id: String? = null,
+    navArbeidsforholdId: String = "navArbeidsforholdId",
+    fnr: String = "fnr",
+    orgnummer: String = "orgnummer",
+    juridiskOrgnummer: String = "juridiskOrgnummer",
+    orgnavn: String = "orgnavn",
+    fom: LocalDate = LocalDate.parse("2020-01-01"),
+    tom: LocalDate? = null,
+    arbeidsforholdType: ArbeidsforholdType? = null,
+    opprettet: Instant = Instant.parse("2020-01-01T00:00:00Z"),
+): Arbeidsforhold =
+    Arbeidsforhold(
+        id = id,
+        navArbeidsforholdId = navArbeidsforholdId,
+        fnr = fnr,
+        orgnummer = orgnummer,
+        juridiskOrgnummer = juridiskOrgnummer,
+        orgnavn = orgnavn,
+        fom = fom,
+        tom = tom,
+        arbeidsforholdType = arbeidsforholdType,
+        opprettet = opprettet,
+    )
 
 fun Testdata.sykmeldingDTO(
     sykmeldingId: String = "sykmeldingId",
@@ -29,4 +77,3 @@ fun Testdata.sykmelding(
     fom = fom,
     tom = tom,
 )
-

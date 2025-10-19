@@ -15,14 +15,11 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class JsonConfig {
     @Bean
-    fun jsonCustomizer(): Jackson2ObjectMapperBuilderCustomizer {
-        println("Creating customizer bean")
-        return Jackson2ObjectMapperBuilderCustomizer { builder ->
-            println("Builder customizer")
+    fun jsonCustomizer(): Jackson2ObjectMapperBuilderCustomizer =
+        Jackson2ObjectMapperBuilderCustomizer { builder ->
             builder.modulesToInstall(KOMMANDO_DESERIALIZER_MODULE)
             builder.mixIn(Effekt::class.java, EffektMixin::class.java)
         }
-    }
 }
 
 @JsonTypeInfo(
