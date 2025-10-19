@@ -9,7 +9,12 @@ import com.example.demo.utils.objectMapper
 import org.springframework.stereotype.Service
 
 interface KommandoService {
-    fun utførKommando(kommando: Kommando)
+    fun utførKommando(
+        kommando: Kommando,
+        kildesystem: String? = null,
+        aktørtype: String? = null,
+        aktørident: String? = null,
+    )
 
     fun planleggKommando(kommando: Kommando): Plan
 }
@@ -22,7 +27,12 @@ class KommandoServiceImpl(
 ) : KommandoService {
     private val logger = logger()
 
-    override fun utførKommando(kommando: Kommando) {
+    override fun utførKommando(
+        kommando: Kommando,
+        kildesystem: String?,
+        aktørtype: String?,
+        aktørident: String?,
+    ) {
         val plan = planleggKommando(kommando)
         val resultat =
             runCatching {
@@ -31,6 +41,8 @@ class KommandoServiceImpl(
         kommandoLoggRepository.save(
             KommandoLogg(
                 traceId = KommandoTraceContext.getTraceId(),
+                kildesystem = kildesystem,
+                aktorident = aktørident,
                 kommandoType = kommando.type.name,
                 kommando = kommando,
                 plan = plan,

@@ -15,4 +15,7 @@ data class KommandoLogg(
     val plan: Plan,
     val suksess: Boolean = true,
     val feilmelding: String? = null,
+    val kildesystem: String? = null,
+    val aktortype: String? = null,
+    val aktorident: String? = null,
 )

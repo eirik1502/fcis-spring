@@ -12,8 +12,7 @@ class JsonConfig {
     @Bean
     fun jsonCustomizer(): Jackson2ObjectMapperBuilderCustomizer =
         Jackson2ObjectMapperBuilderCustomizer { builder ->
-            builder.modulesToInstall(KOMMANDO_DESERIALIZER_MODULE)
-            builder.modulesToInstall(EFFEKT_DESERIALIZER_MODULE)
+            builder.modulesToInstall(KOMMANDO_DESERIALIZER_MODULE, EFFEKT_DESERIALIZER_MODULE)
         }
 }
 

@@ -7,5 +7,8 @@ CREATE TABLE kommando_logg
     kommando         JSONB                    NOT NULL,
     plan             JSONB                    NOT NULL,
     suksess          BOOLEAN                  NOT NULL,
-    feilmelding      TEXT                     NULL
+    feilmelding      TEXT                     NULL,
+    kildesystem      TEXT                     NULL,
+    aktortype        TEXT                     NULL,
+    aktorident       TEXT                     NULL
 );

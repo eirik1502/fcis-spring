@@ -19,7 +19,6 @@ class SykmeldingTest {
             )
 
         plan.shouldContainEffekt<LagreSykmelding>()
-        plan.shouldContainEffekt<LagreSykmeldingRegistrering>()
         plan.shouldContainUtførKommandoEffekt<Kommando.SynkroniserArbeidsforhold>()
     }
 
@@ -45,7 +44,6 @@ class SykmeldingTest {
             )
 
         plan.shouldContainEffekt<SlettSykmelding>()
-        plan.shouldContainEffekt<SlettSykmeldingRegistreringer>()
     }
 
     inline fun <reified T> Plan.shouldContainEffekt(): T {

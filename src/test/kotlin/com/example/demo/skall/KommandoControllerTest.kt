@@ -76,7 +76,12 @@ class KommandoServiceFake : KommandoService {
         planlagteKommandoer.clear()
     }
 
-    override fun utførKommando(kommando: Kommando) {
+    override fun utførKommando(
+        kommando: Kommando,
+        kildeSystem: String?,
+        aktørtype: String?,
+        aktørIdent: String?,
+    ) {
         utførteKommandoer.add(kommando)
     }
 
