@@ -9,7 +9,8 @@ class PlanUtfører(
 ) {
     fun utførPlan(plan: Plan) {
         for (effekt in plan.effekter) {
-            effektUtførerRegister.utførEffekt(effekt)
+            val effektUtfører = effektUtførerRegister.finnEffektUtfører(effekt)
+            effektUtfører.utfør(effekt)
         }
     }
 }

@@ -6,7 +6,7 @@ import com.example.demo.kjerne.arbeidsforhold.synkroniserArbeidsforhold
 import com.example.demo.kjerne.sykmelding.Sykmelding
 import com.example.demo.kjerne.sykmelding.behandleSykmeldingHendelse
 import com.example.demo.skall.eksternt.AaregKlient
-import com.example.demo.skall.rammeverk.KommandoUtfører
+import com.example.demo.skall.rammeverk.Planlegger
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration
 class KommandoUtførerConfig {
     @Bean
     fun behandleSykmeldingHendelseUtfører(sykmeldingRepository: SykmeldingRepository) =
-        KommandoUtfører(Kommando.HåndterSykmeldingHendelse::class) { kommando ->
+        Planlegger(Kommando.HåndterSykmeldingHendelse::class) { kommando ->
             behandleSykmeldingHendelse(
                 sykmeldingId = kommando.sykmeldingId,
                 sykmelding = kommando.sykmelding?.let(::konvertFraSykmeldingDTO),
@@ -24,7 +24,7 @@ class KommandoUtførerConfig {
 
     @Bean
     fun synkroniserArbeidsforholdUtfører(aaregKlient: AaregKlient) =
-        KommandoUtfører(Kommando.SynkroniserArbeidsforhold::class) {
+        Planlegger(Kommando.SynkroniserArbeidsforhold::class) {
             synkroniserArbeidsforhold(
                 fnr = "1",
                 aaregArbeidsforhold = AaregArbeidsforhold(navArbeidsforholdId = "1"),

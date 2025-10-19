@@ -10,13 +10,10 @@ import kotlin.reflect.full.isSubclassOf
 class EffektUtførerRegister(
     private val appContext: ApplicationContext,
 ) {
-    fun utførEffekt(effekt: Effekt) {
-        val utfører = finnEffektUtfører(effekt::class)
-        return utfører.utfør(effekt)
-    }
+    fun finnEffektUtfører(effekt: Effekt): EffektUtfører<Effekt> = finnEffektUtfører(effekt::class)
 
     @Suppress("UNCHECKED_CAST")
-    private fun <E : Effekt> finnEffektUtfører(effektType: KClass<E>): EffektUtfører<Effekt> {
+    fun <E : Effekt> finnEffektUtfører(effektType: KClass<E>): EffektUtfører<Effekt> {
         val utfører: EffektUtfører<Effekt> =
             appContext
                 .getBeansOfType(EffektUtfører::class.java)

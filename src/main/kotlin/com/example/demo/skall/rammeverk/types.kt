@@ -10,7 +10,7 @@ class EffektUtfører<E : Effekt>(
     val utfør: (E) -> Unit,
 )
 
-data class KommandoUtfører<K : Kommando>(
+data class Planlegger<K : Kommando>(
     val kommandoType: KClass<K>,
     private val utfør: (K) -> Plan,
 ) {

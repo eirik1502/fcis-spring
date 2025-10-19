@@ -13,7 +13,7 @@ interface KommandoService {
 
 @Service
 class KommandoServiceImpl(
-    private val kommandoUtførerRegister: KommandoUtførerRegister,
+    private val planleggerRegister: PlanleggerRegister,
     private val planUtfører: PlanUtfører,
 ) : KommandoService {
     private val logger = logger()
@@ -25,7 +25,7 @@ class KommandoServiceImpl(
     }
 
     override fun planleggKommando(kommando: Kommando): Plan {
-        val utfører = kommandoUtførerRegister.finnKommandoUtfører(kommando)
+        val utfører = planleggerRegister.finnPlanlegger(kommando)
         logger.info("Fant utfører: " + mapOf("kommando" to kommando.type, "utfører" to utfører))
         val plan = utfører.utfør(kommando)
         logger.info("Laget plan: " + mapOf("kommando" to kommando.type, "plan" to plan))
