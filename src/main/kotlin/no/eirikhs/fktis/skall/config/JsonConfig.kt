@@ -28,11 +28,11 @@ val KOMMANDO_DESERIALIZER_MODULE =
 val EFFEKT_DESERIALIZER_MODULE =
     SimpleModule().addPolymorphicDeserializer(Effekt::type) {
         when (it) {
-            EffektType.SLETT_SYKMELDING_REGISTRERINGER -> SlettSykmeldingRegistreringer::class
+            EffektType.SLETT_BEKREFTELSE -> SlettBekreftelse::class
             EffektType.UTFØR_KOMMANDO -> UtførKommando::class
             EffektType.LAGRE_SYKMELDING -> LagreSykmelding::class
             EffektType.SLETT_SYKMELDING -> SlettSykmelding::class
-            EffektType.LAGRE_SYKMELDING_REGISTRERING -> LagreSykmeldingRegistrering::class
+            EffektType.LAGRE_BEKREFTELSE -> LagreBekreftelse::class
             EffektType.LAGRE_ARBEIDSFORHOLD -> LagreArbeidsforhold::class
             EffektType.SLETT_ARBEIDSFORHOLD -> SlettArbeidsforhold::class
         }

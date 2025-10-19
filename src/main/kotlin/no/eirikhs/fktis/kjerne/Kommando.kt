@@ -1,5 +1,6 @@
 package no.eirikhs.fktis.kjerne
 
+import no.eirikhs.fktis.kjerne.bekreftelse.BrukerSvar
 import no.eirikhs.fktis.kjerne.sykmelding.EksternSykmelding
 
 enum class KommandoType {
@@ -27,4 +28,15 @@ sealed interface Kommando {
     ) : Kommando {
         override val type = KommandoType.SYNKRONISER_ARBEIDSFORHOLD
     }
+
+    data class AvbrytSykmelding(
+        val sykmeldingId: String,
+        val fnr: String,
+    )
+
+    data class BekreftSykmelding(
+        val sykmeldingId: String,
+        val fnr: String,
+        val brukerSvar: BrukerSvar? = null,
+    )
 }

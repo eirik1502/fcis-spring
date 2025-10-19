@@ -6,6 +6,8 @@ import no.eirikhs.fktis.kjerne.Plan
 import no.eirikhs.fktis.kjerne.arbeidsforhold.AaregArbeidsforhold
 import no.eirikhs.fktis.kjerne.arbeidsforhold.Arbeidsforhold
 import no.eirikhs.fktis.kjerne.arbeidsforhold.ArbeidsforholdType
+import no.eirikhs.fktis.kjerne.bekreftelse.Bekreftelse
+import no.eirikhs.fktis.kjerne.bekreftelse.BekreftelseStatus
 import no.eirikhs.fktis.kjerne.sykmelding.EksternSykmelding
 import no.eirikhs.fktis.kjerne.sykmelding.Sykmelding
 import no.eirikhs.fktis.skall.kommandologg.KommandoLogg
@@ -94,4 +96,18 @@ fun Testdata.kommandoLogg(
     kommandoType = kommandoType,
     kommando = kommando,
     plan = plan,
+)
+
+fun Testdata.bekreftelse(
+    id: String? = null,
+    sykmeldingId: String = "sykmeldingId",
+    fnr: String = "fnr",
+    status: BekreftelseStatus = BekreftelseStatus.AVBRUTT,
+    opprettet: Instant = Instant.parse("2020-01-01T00:00:00Z"),
+) = Bekreftelse(
+    id = id,
+    sykmeldingId = sykmeldingId,
+    fnr = fnr,
+    status = status,
+    opprettet = opprettet,
 )

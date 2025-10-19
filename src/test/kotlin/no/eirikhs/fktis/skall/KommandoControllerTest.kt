@@ -46,7 +46,7 @@ class KommandoControllerTest {
     @TestFactory
     fun `burde utføre kommando`() =
         KommandoTestData
-            .kallAlle()
+            .alleKommandoer()
             .map { kommando ->
                 DynamicTest.dynamicTest(kommando.type.name) {
                     val request =
@@ -78,9 +78,9 @@ class KommandoServiceFake : KommandoService {
 
     override fun utførKommando(
         kommando: Kommando,
-        kildeSystem: String?,
+        kildesystem: String?,
         aktørtype: String?,
-        aktørIdent: String?,
+        aktørident: String?,
     ) {
         utførteKommandoer.add(kommando)
     }

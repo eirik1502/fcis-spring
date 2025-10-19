@@ -15,7 +15,7 @@ class PlanleggerRegisterTest : E2eTestOppsett() {
     @TestFactory
     fun `burde finne kommando utfører`() =
         KommandoTestData
-            .kallAlle()
+            .alleKommandoer()
             .map { kommando ->
                 DynamicTest.dynamicTest(kommando.type.name) {
                     val utfører = register.finnPlanlegger(kommando)

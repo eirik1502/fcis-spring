@@ -1,15 +1,15 @@
 package no.eirikhs.fktis.kjerne
 
 import no.eirikhs.fktis.kjerne.arbeidsforhold.Arbeidsforhold
+import no.eirikhs.fktis.kjerne.bekreftelse.Bekreftelse
 import no.eirikhs.fktis.kjerne.sykmelding.Sykmelding
-import no.eirikhs.fktis.skall.SykmeldingRegistrering
 
 enum class EffektType {
     UTFØR_KOMMANDO,
     LAGRE_SYKMELDING,
     SLETT_SYKMELDING,
-    LAGRE_SYKMELDING_REGISTRERING,
-    SLETT_SYKMELDING_REGISTRERINGER,
+    LAGRE_BEKREFTELSE,
+    SLETT_BEKREFTELSE,
     LAGRE_ARBEIDSFORHOLD,
     SLETT_ARBEIDSFORHOLD,
 }
@@ -36,16 +36,16 @@ data class SlettSykmelding(
     override val type = EffektType.SLETT_SYKMELDING
 }
 
-data class LagreSykmeldingRegistrering(
-    val registrering: SykmeldingRegistrering,
+data class LagreBekreftelse(
+    val bekreftelse: Bekreftelse,
 ) : Effekt {
-    override val type = EffektType.LAGRE_SYKMELDING_REGISTRERING
+    override val type = EffektType.LAGRE_BEKREFTELSE
 }
 
-data class SlettSykmeldingRegistreringer(
+data class SlettBekreftelse(
     val sykmeldingId: String,
 ) : Effekt {
-    override val type = EffektType.SLETT_SYKMELDING_REGISTRERINGER
+    override val type = EffektType.SLETT_BEKREFTELSE
 }
 
 data class LagreArbeidsforhold(
