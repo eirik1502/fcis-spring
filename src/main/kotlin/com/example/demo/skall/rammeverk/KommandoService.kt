@@ -30,6 +30,7 @@ class KommandoServiceImpl(
             }
         kommandoLoggRepository.save(
             KommandoLogg(
+                traceId = KommandoTraceContext.getTraceId(),
                 kommandoType = kommando.type.name,
                 kommando = kommando,
                 plan = plan,

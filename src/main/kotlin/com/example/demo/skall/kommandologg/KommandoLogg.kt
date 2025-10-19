@@ -9,6 +9,7 @@ data class KommandoLogg(
     @Id
     val kommandoLoggId: String? = null,
     val opprettet: Instant = Instant.now(),
+    val traceId: String? = null,
     val kommandoType: String,
     val kommando: Kommando,
     val plan: Plan,
