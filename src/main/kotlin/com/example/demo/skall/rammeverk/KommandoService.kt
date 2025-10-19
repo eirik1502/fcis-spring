@@ -2,6 +2,8 @@ package com.example.demo.skall.rammeverk
 
 import com.example.demo.kjerne.Kommando
 import com.example.demo.kjerne.Plan
+import com.example.demo.skall.kommandologg.KommandoLogg
+import com.example.demo.skall.kommandologg.KommandoLoggRepository
 import com.example.demo.utils.logger
 import com.example.demo.utils.objectMapper
 import org.springframework.stereotype.Service
@@ -16,12 +18,25 @@ interface KommandoService {
 class KommandoServiceImpl(
     private val planleggerRegister: PlanleggerRegister,
     private val planUtfører: PlanUtfører,
+    private val kommandoLoggRepository: KommandoLoggRepository,
 ) : KommandoService {
     private val logger = logger()
 
     override fun utførKommando(kommando: Kommando) {
         val plan = planleggKommando(kommando)
-        planUtfører.utførPlan(plan)
+        val resultat =
+            runCatching {
+                planUtfører.utførPlan(plan)
+            }
+        kommandoLoggRepository.save(
+            KommandoLogg(
+                kommandoType = kommando.type.name,
+                kommando = kommando,
+                plan = plan,
+                suksess = resultat.isSuccess,
+                feilmelding = resultat.exceptionOrNull()?.stackTraceToString(),
+            ),
+        )
         logger.info("Utført plan")
     }
 

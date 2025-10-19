@@ -9,6 +9,10 @@ data class Plan(
     val effekter: List<Effekt>,
 ) {
     constructor(vararg effekter: Effekt) : this(effekter = effekter.toList())
+
+    companion object {
+        val TOM = Plan()
+    }
 }
 
 fun byggPlan(bygger: PlanBygger.() -> Unit): Plan = PlanBygger().apply(bygger).bygg()

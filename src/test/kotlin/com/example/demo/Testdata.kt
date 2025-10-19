@@ -1,10 +1,14 @@
 package com.example.demo
 
+import com.example.demo.kjerne.Kommando
+import com.example.demo.kjerne.KommandoType
+import com.example.demo.kjerne.Plan
 import com.example.demo.kjerne.arbeidsforhold.AaregArbeidsforhold
 import com.example.demo.kjerne.arbeidsforhold.Arbeidsforhold
 import com.example.demo.kjerne.arbeidsforhold.ArbeidsforholdType
 import com.example.demo.kjerne.sykmelding.EksternSykmelding
 import com.example.demo.kjerne.sykmelding.Sykmelding
+import com.example.demo.skall.kommandologg.KommandoLogg
 import java.time.Instant
 import java.time.LocalDate
 
@@ -76,4 +80,18 @@ fun Testdata.sykmelding(
     fnr = fnr,
     fom = fom,
     tom = tom,
+)
+
+fun Testdata.kommandoLogg(
+    kommandoLoggId: String? = null,
+    opprettet: Instant = Instant.parse("2024-01-01T00:00:00Z"),
+    kommandoType: String = KommandoType.NOOP.name,
+    kommando: Kommando = Kommando.NoOp,
+    plan: Plan = Plan.TOM,
+) = KommandoLogg(
+    kommandoLoggId = kommandoLoggId,
+    opprettet = opprettet,
+    kommandoType = kommandoType,
+    kommando = kommando,
+    plan = plan,
 )

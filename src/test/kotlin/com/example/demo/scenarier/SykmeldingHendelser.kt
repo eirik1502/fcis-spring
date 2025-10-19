@@ -5,6 +5,7 @@ import com.example.demo.aaregArbeidsforhold
 import com.example.demo.eksternSykmelding
 import com.example.demo.kjerne.arbeidsforhold.Arbeidsforhold
 import com.example.demo.kjerne.sykmelding.Sykmelding
+import com.example.demo.skall.kommandologg.KommandoLoggRepository
 import com.example.demo.skall.porter.ArbeidsforholdRepository
 import com.example.demo.skall.porter.SykmeldingHendelseHåndterer
 import com.example.demo.skall.porter.SykmeldingRepository
@@ -35,13 +36,11 @@ class SykmeldingHendelser : E2eTestOppsett() {
     private lateinit var sykmeldingRepository: SykmeldingRepository
 
     @Autowired
-    private lateinit var arbeidsforholdRepository: ArbeidsforholdRepository
+    private lateinit var kommandoLoggRepository: KommandoLoggRepository
 
     @AfterEach
     fun tearDown() {
-        aaregKlient.reset()
-        sykmeldingRepository.deleteAll()
-        arbeidsforholdRepository.deleteAll()
+        super.resettTilstand()
     }
 
     @Test
