@@ -9,7 +9,7 @@ plugins {
     kotlin("plugin.spring") version "2.1.21"
 }
 
-group = "com.example"
+group = "no.eirikhs"
 version = "0.0.1-SNAPSHOT"
 
 java {

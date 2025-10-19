@@ -9,6 +9,6 @@
         <appender-ref ref="CONSOLE"/>
     </root>
 
-    <logger name="com.example.demo" level="INFO"/>
+    <logger name="no.eirikhs.fktis" level="INFO"/>
 
 </configuration>
