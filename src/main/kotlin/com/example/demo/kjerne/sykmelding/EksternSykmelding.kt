@@ -1,8 +1,8 @@
-package com.example.demo.skall
+package com.example.demo.kjerne.sykmelding
 
 import java.time.LocalDate
 
-data class SykmeldingDTO(
+data class EksternSykmelding(
     val sykmeldingId: String,
     val fnr: String,
     val fom: LocalDate,

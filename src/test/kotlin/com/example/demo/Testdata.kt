@@ -3,8 +3,8 @@ package com.example.demo
 import com.example.demo.kjerne.arbeidsforhold.AaregArbeidsforhold
 import com.example.demo.kjerne.arbeidsforhold.Arbeidsforhold
 import com.example.demo.kjerne.arbeidsforhold.ArbeidsforholdType
+import com.example.demo.kjerne.sykmelding.EksternSykmelding
 import com.example.demo.kjerne.sykmelding.Sykmelding
-import com.example.demo.skall.SykmeldingDTO
 import java.time.Instant
 import java.time.LocalDate
 
@@ -54,12 +54,12 @@ fun Testdata.arbeidsforhold(
         opprettet = opprettet,
     )
 
-fun Testdata.sykmeldingDTO(
+fun Testdata.eksternSykmelding(
     sykmeldingId: String = "sykmeldingId",
     fnr: String = "fnr",
     fom: LocalDate = LocalDate.parse("2025-08-01"),
     tom: LocalDate = LocalDate.parse("2025-08-30"),
-) = SykmeldingDTO(
+) = EksternSykmelding(
     sykmeldingId = sykmeldingId,
     fnr = fnr,
     fom = fom,

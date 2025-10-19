@@ -1,7 +1,7 @@
 package com.example.demo
 
 import com.example.demo.kjerne.Kommando
-import com.example.demo.skall.SykmeldingDTO
+import com.example.demo.kjerne.sykmelding.EksternSykmelding
 import kotlin.reflect.KClass
 import kotlin.reflect.full.functions
 import kotlin.reflect.full.instanceParameter
@@ -10,7 +10,7 @@ import kotlin.reflect.full.isSubclassOf
 object KommandoTestData {
     fun håndterSykmeldingHendelse(
         sykmeldingId: String = "sykmeldingId",
-        sykmelding: SykmeldingDTO? = Testdata.sykmeldingDTO(),
+        sykmelding: EksternSykmelding? = Testdata.eksternSykmelding(),
     ) = Kommando.HåndterSykmeldingHendelse(
         sykmeldingId = sykmeldingId,
         sykmelding = sykmelding,

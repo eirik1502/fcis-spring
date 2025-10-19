@@ -1,7 +1,7 @@
 package com.example.demo.skall.porter
 
 import com.example.demo.kjerne.Kommando
-import com.example.demo.skall.SykmeldingDTO
+import com.example.demo.kjerne.sykmelding.EksternSykmelding
 import com.example.demo.skall.rammeverk.KommandoService
 import org.springframework.stereotype.Component
 
@@ -11,7 +11,7 @@ class SykmeldingHendelseHåndterer(
 ) {
     fun håndterHendelse(
         sykmeldingId: String,
-        sykmelding: SykmeldingDTO?,
+        sykmelding: EksternSykmelding?,
     ) {
         kommandoService.utførKommando(
             Kommando.HåndterSykmeldingHendelse(

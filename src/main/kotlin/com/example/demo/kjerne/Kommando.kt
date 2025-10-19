@@ -1,6 +1,6 @@
 package com.example.demo.kjerne
 
-import com.example.demo.skall.SykmeldingDTO
+import com.example.demo.kjerne.sykmelding.EksternSykmelding
 
 enum class KommandoType {
     HÅNDTER_SYKMELDING_HENDELSE,
@@ -12,13 +12,13 @@ sealed interface Kommando {
 
     data class HåndterSykmeldingHendelse(
         val sykmeldingId: String,
-        val sykmelding: SykmeldingDTO? = null
+        val sykmelding: EksternSykmelding? = null,
     ) : Kommando {
         override val type = KommandoType.HÅNDTER_SYKMELDING_HENDELSE
     }
 
     data class SynkroniserArbeidsforhold(
-        val fnr: String
+        val fnr: String,
     ) : Kommando {
         override val type = KommandoType.SYNKRONISER_ARBEIDSFORHOLD
     }

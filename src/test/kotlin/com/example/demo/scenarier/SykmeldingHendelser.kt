@@ -2,13 +2,13 @@ package com.example.demo.scenarier
 
 import com.example.demo.Testdata
 import com.example.demo.aaregArbeidsforhold
+import com.example.demo.eksternSykmelding
 import com.example.demo.kjerne.arbeidsforhold.Arbeidsforhold
 import com.example.demo.kjerne.sykmelding.Sykmelding
 import com.example.demo.skall.porter.ArbeidsforholdRepository
 import com.example.demo.skall.porter.SykmeldingHendelseHåndterer
 import com.example.demo.skall.porter.SykmeldingRepository
 import com.example.demo.sykmelding
-import com.example.demo.sykmeldingDTO
 import com.example.demo.testoppsett.AaregKlientFake
 import com.example.demo.testoppsett.E2eTestOppsett
 import com.example.demo.utils.objectMapper
@@ -54,7 +54,7 @@ class SykmeldingHendelser : E2eTestOppsett() {
         sykmeldingHendelseHåndterer.håndterHendelse(
             sykmeldingId = "1",
             sykmelding =
-                Testdata.sykmeldingDTO(
+                Testdata.eksternSykmelding(
                     sykmeldingId = "1",
                     fnr = "1",
                 ),

@@ -4,21 +4,34 @@ import com.example.demo.kjerne.*
 
 fun behandleSykmeldingHendelse(
     sykmeldingId: String,
-    sykmelding: Sykmelding? = null,
+    eksternSykmelding: EksternSykmelding? = null,
     eksisterendeSykmelding: Sykmelding? = null,
 ) = byggPlan {
     when {
-        sykmelding != null && eksisterendeSykmelding == null -> {
-            +LagreSykmelding(sykmelding = sykmelding)
+        eksternSykmelding != null && eksisterendeSykmelding == null -> {
+            +LagreSykmelding(sykmelding = eksternSykmelding.tilSykmelding())
             +Kommando.SynkroniserArbeidsforhold(
-                fnr = sykmelding.fnr,
+                fnr = eksternSykmelding.fnr,
             )
         }
-        sykmelding != null && eksisterendeSykmelding != null -> {
-            +LagreSykmelding(sykmelding = sykmelding.copy(databaseId = eksisterendeSykmelding.databaseId))
+        eksternSykmelding != null && eksisterendeSykmelding != null -> {
+            +LagreSykmelding(
+                sykmelding =
+                    eksternSykmelding
+                        .tilSykmelding()
+                        .copy(databaseId = eksisterendeSykmelding.databaseId),
+            )
         }
         else -> {
             +SlettSykmelding(sykmeldingId = sykmeldingId)
         }
     }
 }
+
+internal fun EksternSykmelding.tilSykmelding(): Sykmelding =
+    Sykmelding(
+        sykmeldingId = this.sykmeldingId,
+        fnr = this.fnr,
+        fom = this.fom,
+        tom = this.tom,
+    )

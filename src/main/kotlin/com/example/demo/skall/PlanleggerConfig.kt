@@ -1,9 +1,7 @@
 package com.example.demo.skall
 
 import com.example.demo.kjerne.Kommando
-import com.example.demo.kjerne.arbeidsforhold.AaregArbeidsforhold
 import com.example.demo.kjerne.arbeidsforhold.synkroniserArbeidsforhold
-import com.example.demo.kjerne.sykmelding.Sykmelding
 import com.example.demo.kjerne.sykmelding.behandleSykmeldingHendelse
 import com.example.demo.skall.porter.AaregKlient
 import com.example.demo.skall.porter.ArbeidsforholdRepository
@@ -13,13 +11,13 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class KommandoUtførerConfig {
+class PlanleggerConfig {
     @Bean
     fun behandleSykmeldingHendelsePlanlegger(sykmeldingRepository: SykmeldingRepository) =
         lagPlanlegger(Kommando.HåndterSykmeldingHendelse::class) { kommando ->
             behandleSykmeldingHendelse(
                 sykmeldingId = kommando.sykmeldingId,
-                sykmelding = kommando.sykmelding?.let(::konvertFraSykmeldingDTO),
+                eksternSykmelding = kommando.sykmelding,
                 eksisterendeSykmelding = sykmeldingRepository.findBySykmeldingId(kommando.sykmeldingId),
             )
         }
@@ -36,11 +34,3 @@ class KommandoUtførerConfig {
         )
     }
 }
-
-internal fun konvertFraSykmeldingDTO(sykmelding: SykmeldingDTO): Sykmelding =
-    Sykmelding(
-        sykmeldingId = sykmelding.sykmeldingId,
-        fnr = sykmelding.fnr,
-        fom = sykmelding.fom,
-        tom = sykmelding.tom,
-    )

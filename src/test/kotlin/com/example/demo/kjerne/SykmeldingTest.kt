@@ -1,6 +1,7 @@
 package com.example.demo.kjerne
 
 import com.example.demo.Testdata
+import com.example.demo.eksternSykmelding
 import com.example.demo.kjerne.sykmelding.behandleSykmeldingHendelse
 import com.example.demo.sykmelding
 import org.amshove.kluent.fail
@@ -13,7 +14,7 @@ class SykmeldingTest {
         val plan =
             behandleSykmeldingHendelse(
                 sykmeldingId = "1",
-                sykmelding = Testdata.sykmelding(),
+                eksternSykmelding = Testdata.eksternSykmelding(),
                 eksisterendeSykmelding = null,
             )
 
@@ -27,7 +28,7 @@ class SykmeldingTest {
         val plan =
             behandleSykmeldingHendelse(
                 sykmeldingId = "1",
-                sykmelding = Testdata.sykmelding(),
+                eksternSykmelding = Testdata.eksternSykmelding(),
                 eksisterendeSykmelding = Testdata.sykmelding(),
             )
 
@@ -39,7 +40,7 @@ class SykmeldingTest {
         val plan =
             behandleSykmeldingHendelse(
                 sykmeldingId = "1",
-                sykmelding = null,
+                eksternSykmelding = null,
                 eksisterendeSykmelding = null,
             )
 
