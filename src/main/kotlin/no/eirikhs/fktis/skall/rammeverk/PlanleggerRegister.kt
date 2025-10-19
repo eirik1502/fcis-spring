@@ -22,7 +22,7 @@ class PlanleggerRegister(
                 .getBeansOfType(Planlegger::class.java)
                 .values
                 .firstOrNull { it.kommandoType.isSubclassOf(kommandoType) } as Planlegger<Kommando>?
-                ?: error("")
+                ?: error("Ingen Planleggere registrert for kommando type ${kommandoType.simpleName}")
         return utfører as Planlegger<K>
     }
 }
