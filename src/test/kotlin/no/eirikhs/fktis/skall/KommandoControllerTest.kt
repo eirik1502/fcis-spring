@@ -1,46 +1,33 @@
 package no.eirikhs.fktis.skall
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import no.eirikhs.fktis.KommandoTestData
-import no.eirikhs.fktis.kjerne.Kommando
-import no.eirikhs.fktis.kjerne.Plan
-import no.eirikhs.fktis.skall.config.JsonConfig
-import no.eirikhs.fktis.skall.rammeverk.KommandoService
-import no.eirikhs.fktis.utils.objectMapper
-import org.amshove.kluent.shouldHaveSingleItem
+import no.eirikhs.fktis.fktis.skall.KommandoService
+import no.eirikhs.fktis.testoppsett.E2eTestOppsett
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
-import org.junit.jupiter.api.TestInstance
+import org.mockito.Mockito.reset
+import org.mockito.Mockito.verify
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.context.TestConfiguration
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
-import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@WebMvcTest(KommandoController::class)
-@Import(JsonConfig::class)
-@ActiveProfiles("test")
-class KommandoControllerTest {
-    @TestConfiguration
-    class TestConfig {
-        @Bean
-        fun kommandoService(): KommandoServiceFake = KommandoServiceFake()
-    }
+class KommandoControllerTest : E2eTestOppsett() {
+    @MockitoBean
+    private lateinit var kommandoService: KommandoService
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
     @Autowired
-    private lateinit var kommandoService: KommandoServiceFake
+    private lateinit var objectMapper: ObjectMapper
 
     @AfterEach
     fun afterEach() {
-        kommandoService.reset()
+        reset(kommandoService)
     }
 
     @TestFactory
@@ -48,45 +35,20 @@ class KommandoControllerTest {
         KommandoTestData
             .alleKommandoer()
             .map { kommando ->
-                DynamicTest.dynamicTest(kommando.type.name) {
-                    val request =
-                        KommandoRequest(kommando = kommando)
+                DynamicTest.dynamicTest(kommando::class.simpleName) {
                     mockMvc
                         .post("/kommando") {
                             contentType = MediaType.APPLICATION_JSON
-                            content = objectMapper.writeValueAsString(request)
+                            content =
+                                objectMapper.writeValueAsString(kommando).also {
+                                    println("Kommando: $kommando")
+                                    println("Kommando JSON: $it")
+                                }
                         }.andExpect {
                             status { isOk() }
                         }
-
-                    kommandoService.utførteKommandoer().shouldHaveSingleItem()
-                    afterEach()
+                    verify(kommandoService).utførKommando(kommando)
+                    reset(kommandoService)
                 }
             }
-}
-
-class KommandoServiceFake : KommandoService {
-    private val utførteKommandoer = mutableListOf<Kommando>()
-    private val planlagteKommandoer = mutableListOf<Kommando>()
-
-    fun utførteKommandoer(): List<Kommando> = utførteKommandoer.toList()
-
-    fun reset() {
-        utførteKommandoer.clear()
-        planlagteKommandoer.clear()
-    }
-
-    override fun utførKommando(
-        kommando: Kommando,
-        kildesystem: String?,
-        aktørtype: String?,
-        aktørident: String?,
-    ) {
-        utførteKommandoer.add(kommando)
-    }
-
-    override fun planleggKommando(kommando: Kommando): Plan {
-        planlagteKommandoer.add(kommando)
-        return Plan(emptyList())
-    }
 }

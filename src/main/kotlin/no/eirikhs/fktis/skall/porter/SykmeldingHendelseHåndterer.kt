@@ -1,8 +1,8 @@
 package no.eirikhs.fktis.skall.porter
 
-import no.eirikhs.fktis.kjerne.Kommando
+import no.eirikhs.fktis.fktis.skall.KommandoService
+import no.eirikhs.fktis.kjerne.HåndterSykmeldingHendelse
 import no.eirikhs.fktis.kjerne.sykmelding.EksternSykmelding
-import no.eirikhs.fktis.skall.rammeverk.KommandoService
 import org.springframework.stereotype.Component
 
 @Component
@@ -14,7 +14,7 @@ class SykmeldingHendelseHåndterer(
         sykmelding: EksternSykmelding?,
     ) {
         kommandoService.utførKommando(
-            Kommando.HåndterSykmeldingHendelse(
+            HåndterSykmeldingHendelse(
                 sykmeldingId = sykmeldingId,
                 sykmelding = sykmelding,
             ),

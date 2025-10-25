@@ -1,4 +1,4 @@
-package no.eirikhs.fktis.skall.porter
+package no.eirikhs.fktis.skall.repositories
 
 import no.eirikhs.fktis.kjerne.sykmelding.Sykmelding
 import org.springframework.data.repository.CrudRepository

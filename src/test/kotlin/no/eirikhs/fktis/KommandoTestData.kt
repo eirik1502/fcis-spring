@@ -1,31 +1,30 @@
 package no.eirikhs.fktis
 
-import no.eirikhs.fktis.kjerne.Kommando
+import no.eirikhs.fktis.fktis.kjerne.Kommando
+import no.eirikhs.fktis.kjerne.HåndterSykmeldingHendelse
+import no.eirikhs.fktis.kjerne.NoOpKommando
+import no.eirikhs.fktis.kjerne.SynkroniserArbeidsforhold
 import no.eirikhs.fktis.kjerne.sykmelding.EksternSykmelding
-import kotlin.reflect.KClass
-import kotlin.reflect.full.functions
-import kotlin.reflect.full.instanceParameter
-import kotlin.reflect.full.isSubclassOf
 
 object KommandoTestData {
-    fun noop() = Kommando.NoOp
+    fun noopKommando() = NoOpKommando
 
     fun håndterSykmeldingHendelse(
         sykmeldingId: String = "sykmeldingId",
         sykmelding: EksternSykmelding? = Testdata.eksternSykmelding(),
-    ) = Kommando.HåndterSykmeldingHendelse(
+    ) = HåndterSykmeldingHendelse(
         sykmeldingId = sykmeldingId,
         sykmelding = sykmelding,
     )
 
     fun synkroniserArbeidsforhold(fnr: String = "fnr") =
-        Kommando.SynkroniserArbeidsforhold(
+        SynkroniserArbeidsforhold(
             fnr = fnr,
         )
 
     fun alleKommandoer(): List<Kommando> =
         listOf(
-            noop(),
+            noopKommando(),
             håndterSykmeldingHendelse(),
             synkroniserArbeidsforhold(),
         )

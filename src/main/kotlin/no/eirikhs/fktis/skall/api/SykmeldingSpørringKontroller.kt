@@ -1,11 +1,9 @@
-package no.eirikhs.fktis.skall
+package no.eirikhs.fktis.skall.api
 
-import jakarta.websocket.server.PathParam
 import no.eirikhs.fktis.kjerne.sykmelding.Sykmelding
-import no.eirikhs.fktis.skall.porter.SykmeldingRepository
+import no.eirikhs.fktis.skall.repositories.SykmeldingRepository
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.Mapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 

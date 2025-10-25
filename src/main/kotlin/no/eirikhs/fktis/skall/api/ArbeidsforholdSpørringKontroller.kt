@@ -1,7 +1,7 @@
-package no.eirikhs.fktis.skall
+package no.eirikhs.fktis.skall.api
 
 import no.eirikhs.fktis.kjerne.arbeidsforhold.Arbeidsforhold
-import no.eirikhs.fktis.skall.porter.ArbeidsforholdRepository
+import no.eirikhs.fktis.skall.repositories.ArbeidsforholdRepository
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController

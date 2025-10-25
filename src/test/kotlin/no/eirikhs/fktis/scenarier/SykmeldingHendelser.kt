@@ -6,10 +6,9 @@ import no.eirikhs.fktis.aaregArbeidsforhold
 import no.eirikhs.fktis.eksternSykmelding
 import no.eirikhs.fktis.kjerne.arbeidsforhold.Arbeidsforhold
 import no.eirikhs.fktis.kjerne.sykmelding.Sykmelding
-import no.eirikhs.fktis.skall.kommandologg.KommandoLoggRepository
-import no.eirikhs.fktis.skall.porter.ArbeidsforholdRepository
 import no.eirikhs.fktis.skall.porter.SykmeldingHendelseHåndterer
-import no.eirikhs.fktis.skall.porter.SykmeldingRepository
+import no.eirikhs.fktis.skall.repositories.KommandoLoggRepository
+import no.eirikhs.fktis.skall.repositories.SykmeldingRepository
 import no.eirikhs.fktis.sykmelding
 import no.eirikhs.fktis.testoppsett.AaregKlientFake
 import no.eirikhs.fktis.testoppsett.E2eTestOppsett

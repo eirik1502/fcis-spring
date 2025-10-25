@@ -1,8 +1,8 @@
-package no.eirikhs.fktis.skall
+package no.eirikhs.fktis.skall.api
 
-import no.eirikhs.fktis.kjerne.Kommando
-import no.eirikhs.fktis.kjerne.Plan
-import no.eirikhs.fktis.skall.rammeverk.KommandoService
+import no.eirikhs.fktis.fktis.kjerne.Kommando
+import no.eirikhs.fktis.fktis.kjerne.Plan
+import no.eirikhs.fktis.fktis.skall.KommandoService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -14,21 +14,17 @@ class KommandoController(
 ) {
     @PostMapping("/kommando")
     fun utførKomando(
-        @RequestBody kommandoRequest: KommandoRequest,
+        @RequestBody kommando: Kommando,
     ): ResponseEntity<Boolean> {
-        kommandoService.utførKommando(kommandoRequest.kommando)
+        kommandoService.utførKommando(kommando)
         return ResponseEntity.ok(true)
     }
 
     @PostMapping("/kommando/plan")
     fun planleggKommando(
-        @RequestBody kommandoRequest: KommandoRequest,
+        @RequestBody kommando: Kommando,
     ): ResponseEntity<Plan> {
-        val plan = kommandoService.planleggKommando(kommandoRequest.kommando)
+        val plan = kommandoService.planleggKommando(kommando)
         return ResponseEntity.ok(plan)
     }
 }
-
-data class KommandoRequest(
-    val kommando: Kommando,
-)

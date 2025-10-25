@@ -1,19 +1,27 @@
 package no.eirikhs.fktis.skall
 
+import no.eirikhs.fktis.fktis.skall.KommandoService
+import no.eirikhs.fktis.fktis.skall.hjelpere.lagEffektUtfører
 import no.eirikhs.fktis.kjerne.LagreArbeidsforhold
 import no.eirikhs.fktis.kjerne.LagreSykmelding
 import no.eirikhs.fktis.kjerne.SlettSykmelding
-import no.eirikhs.fktis.skall.porter.ArbeidsforholdRepository
-import no.eirikhs.fktis.skall.porter.SykmeldingRepository
-import no.eirikhs.fktis.skall.rammeverk.lagEffektUtfører
+import no.eirikhs.fktis.kjerne.UtførKommando
+import no.eirikhs.fktis.skall.repositories.ArbeidsforholdRepository
+import no.eirikhs.fktis.skall.repositories.SykmeldingRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 class EffektUtførerConfig {
     @Bean
+    fun utførKommandoEffektUtfører(kommandoService: KommandoService) =
+        lagEffektUtfører<UtførKommando> { effekt ->
+            kommandoService.utførKommando(effekt.kommando)
+        }
+
+    @Bean
     fun slettSykmeldingEffektUtfører(sykmeldingRepository: SykmeldingRepository) =
-        lagEffektUtfører(SlettSykmelding::class) { effekt ->
+        lagEffektUtfører<SlettSykmelding> { effekt ->
             sykmeldingRepository.findBySykmeldingId(effekt.sykmeldingId)?.let {
                 sykmeldingRepository.delete(it)
             }
@@ -21,7 +29,7 @@ class EffektUtførerConfig {
 
     @Bean
     fun lagreSykmeldingEffektUtfører(sykmeldingRepository: SykmeldingRepository) =
-        lagEffektUtfører(LagreSykmelding::class) { effekt ->
+        lagEffektUtfører<LagreSykmelding> { effekt ->
             sykmeldingRepository.save(effekt.sykmelding)
         }
 

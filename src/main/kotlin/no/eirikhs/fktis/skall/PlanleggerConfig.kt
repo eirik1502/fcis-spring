@@ -1,13 +1,15 @@
 package no.eirikhs.fktis.skall
 
-import no.eirikhs.fktis.kjerne.Kommando
-import no.eirikhs.fktis.kjerne.Plan
+import no.eirikhs.fktis.fktis.kjerne.Plan
+import no.eirikhs.fktis.fktis.skall.hjelpere.lagPlanlegger
+import no.eirikhs.fktis.kjerne.HåndterSykmeldingHendelse
+import no.eirikhs.fktis.kjerne.NoOpKommando
+import no.eirikhs.fktis.kjerne.SynkroniserArbeidsforhold
 import no.eirikhs.fktis.kjerne.arbeidsforhold.synkroniserArbeidsforhold
 import no.eirikhs.fktis.kjerne.sykmelding.behandleSykmeldingHendelse
 import no.eirikhs.fktis.skall.porter.AaregKlient
-import no.eirikhs.fktis.skall.porter.ArbeidsforholdRepository
-import no.eirikhs.fktis.skall.porter.SykmeldingRepository
-import no.eirikhs.fktis.skall.rammeverk.lagPlanlegger
+import no.eirikhs.fktis.skall.repositories.ArbeidsforholdRepository
+import no.eirikhs.fktis.skall.repositories.SykmeldingRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -15,13 +17,13 @@ import org.springframework.context.annotation.Configuration
 class PlanleggerConfig {
     @Bean
     fun noOpPlanlegger() =
-        lagPlanlegger(Kommando.NoOp::class) {
+        lagPlanlegger<NoOpKommando> {
             Plan.TOM
         }
 
     @Bean
     fun behandleSykmeldingHendelsePlanlegger(sykmeldingRepository: SykmeldingRepository) =
-        lagPlanlegger(Kommando.HåndterSykmeldingHendelse::class) { kommando ->
+        lagPlanlegger<HåndterSykmeldingHendelse> { kommando ->
             behandleSykmeldingHendelse(
                 sykmeldingId = kommando.sykmeldingId,
                 eksternSykmelding = kommando.sykmelding,
@@ -33,7 +35,7 @@ class PlanleggerConfig {
     fun synkroniserArbeidsforholdPlanlegger(
         aaregKlient: AaregKlient,
         arbeidsforholdRepository: ArbeidsforholdRepository,
-    ) = lagPlanlegger(Kommando.SynkroniserArbeidsforhold::class) { kommando ->
+    ) = lagPlanlegger<SynkroniserArbeidsforhold> { kommando ->
         synkroniserArbeidsforhold(
             fnr = kommando.fnr,
             aaregArbeidsforhold = aaregKlient.hentArbeidsforhold(fnr = kommando.fnr),

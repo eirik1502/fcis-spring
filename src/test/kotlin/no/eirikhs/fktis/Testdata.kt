@@ -1,8 +1,8 @@
 package no.eirikhs.fktis
 
-import no.eirikhs.fktis.kjerne.Kommando
-import no.eirikhs.fktis.kjerne.KommandoType
-import no.eirikhs.fktis.kjerne.Plan
+import no.eirikhs.fktis.fktis.kjerne.Kommando
+import no.eirikhs.fktis.fktis.kjerne.Plan
+import no.eirikhs.fktis.kjerne.NoOpKommando
 import no.eirikhs.fktis.kjerne.arbeidsforhold.AaregArbeidsforhold
 import no.eirikhs.fktis.kjerne.arbeidsforhold.Arbeidsforhold
 import no.eirikhs.fktis.kjerne.arbeidsforhold.ArbeidsforholdType
@@ -10,7 +10,7 @@ import no.eirikhs.fktis.kjerne.bekreftelse.Bekreftelse
 import no.eirikhs.fktis.kjerne.bekreftelse.BekreftelseStatus
 import no.eirikhs.fktis.kjerne.sykmelding.EksternSykmelding
 import no.eirikhs.fktis.kjerne.sykmelding.Sykmelding
-import no.eirikhs.fktis.skall.kommandologg.KommandoLogg
+import no.eirikhs.fktis.skall.repositories.KommandoLogg
 import java.time.Instant
 import java.time.LocalDate
 
@@ -87,13 +87,11 @@ fun Testdata.sykmelding(
 fun Testdata.kommandoLogg(
     kommandoLoggId: String? = null,
     opprettet: Instant = Instant.parse("2024-01-01T00:00:00Z"),
-    kommandoType: String = KommandoType.NOOP.name,
-    kommando: Kommando = Kommando.NoOp,
+    kommando: Kommando = NoOpKommando,
     plan: Plan = Plan.TOM,
 ) = KommandoLogg(
     kommandoLoggId = kommandoLoggId,
     opprettet = opprettet,
-    kommandoType = kommandoType,
     kommando = kommando,
     plan = plan,
 )

@@ -2,18 +2,18 @@ package no.eirikhs.fktis.testoppsett
 
 import no.eirikhs.fktis.DemoApplication
 import no.eirikhs.fktis.TestContainersOppsett
-import no.eirikhs.fktis.skall.kommandologg.KommandoLoggRepository
-import no.eirikhs.fktis.skall.porter.ArbeidsforholdRepository
-import no.eirikhs.fktis.skall.porter.SykmeldingHendelseHåndterer
-import no.eirikhs.fktis.skall.porter.SykmeldingRepository
+import no.eirikhs.fktis.skall.repositories.ArbeidsforholdRepository
+import no.eirikhs.fktis.skall.repositories.KommandoLoggRepository
+import no.eirikhs.fktis.skall.repositories.SykmeldingRepository
+import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.web.servlet.MockMvc
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(
     classes = [DemoApplication::class, E2eTestOppsett.TestOverrskrivConfig::class],
     properties = [
@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.MockMvc
     ],
 )
 @ActiveProfiles("test")
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(printOnlyOnFailure = true)
 abstract class E2eTestOppsett {
     @Autowired
     private lateinit var aaregKlient: AaregKlientFake

@@ -1,4 +1,4 @@
-package no.eirikhs.fktis.skall.rammeverk
+package no.eirikhs.fktis.fktis.skall
 
 import java.util.*
 

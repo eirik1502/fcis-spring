@@ -1,12 +1,14 @@
 package no.eirikhs.fktis
 
+import no.eirikhs.fktis.fktis.kjerne.Effekt
+import no.eirikhs.fktis.fktis.kjerne.Kommando
 import no.eirikhs.fktis.kjerne.*
 import no.eirikhs.fktis.kjerne.arbeidsforhold.Arbeidsforhold
 import no.eirikhs.fktis.kjerne.bekreftelse.Bekreftelse
 import no.eirikhs.fktis.kjerne.sykmelding.Sykmelding
 
 object EffektTestData {
-    fun utførKommando(kommando: Kommando = KommandoTestData.noop()) =
+    fun utførKommando(kommando: Kommando = KommandoTestData.noopKommando()) =
         UtførKommando(
             kommando = kommando,
         )
