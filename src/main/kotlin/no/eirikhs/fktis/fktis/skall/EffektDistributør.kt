@@ -1,17 +1,21 @@
 package no.eirikhs.fktis.fktis.skall
 
 import no.eirikhs.fktis.fktis.kjerne.Effekt
+import no.eirikhs.fktis.utils.logger
 import kotlin.reflect.KClass
 
 class EffektDistributør(
     private val behandlere: Collection<EffektBehandler<*>>,
 ) {
+    private val log = logger()
     private val behandlerVedEffektType: Map<KClass<out Effekt>, EffektBehandler<*>> =
         behandlere.associateBy { it.effektType }
 
     fun utfør(effekt: Effekt) {
         val behandler = finnBehandler(effekt)
-        behandler.utfør(effekt)
+        behandler.utfør(effekt).also {
+            log.debug("Utført effekt: {}", mapOf("effekt" to effekt))
+        }
     }
 
     fun hentAlleBehandlere(): Set<EffektBehandler<*>> = behandlere.toSet()

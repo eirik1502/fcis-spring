@@ -23,6 +23,7 @@ val KOMMANDO_JACKSON_MODULE =
             "NOOP" to NoOpKommando::class,
             "HÅNDTER_SYKMELDING_HENDELSE" to HåndterSykmeldingHendelse::class,
             "SYNKRONISER_ARBEIDSFORHOLD" to SynkroniserArbeidsforhold::class,
+            "ARBEIDSFORHOLD_NOTIFIKASJON" to ArbeidsforholdNotifikasjonKommando::class,
         ),
     )
 

@@ -1,7 +1,7 @@
 CREATE TABLE ARBEIDSFORHOLD
 (
     ID                    TEXT DEFAULT gen_random_uuid()::text PRIMARY KEY,
-    NAV_ARBEIDSFORHOLD_ID TEXT                     NOT NULL UNIQUE,
+    NAV_ARBEIDSFORHOLD_ID TEXT                     NOT NULL,
     FNR                   TEXT                     NOT NULL,
     ORGNUMMER             TEXT                     NOT NULL,
     JURIDISK_ORGNUMMER    TEXT                     NOT NULL,
@@ -9,5 +9,6 @@ CREATE TABLE ARBEIDSFORHOLD
     FOM                   DATE                     NOT NULL,
     TOM                   DATE                     NULL,
     ARBEIDSFORHOLD_TYPE   TEXT                     NULL,
-    OPPRETTET             TIMESTAMP WITH TIME ZONE NOT NULL
+    OPPRETTET             TIMESTAMP WITH TIME ZONE NOT NULL,
+    CONSTRAINT unique_fnr_arbeidsforhold UNIQUE (FNR, ORGNUMMER)
 );

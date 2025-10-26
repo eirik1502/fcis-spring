@@ -1,6 +1,7 @@
 package no.eirikhs.fktis.fktis.skall
 
 import no.eirikhs.fktis.fktis.kjerne.*
+import no.eirikhs.fktis.utils.logger
 
 class PlanBehandler(
     private val effektDistributør: EffektDistributør,
@@ -8,15 +9,29 @@ class PlanBehandler(
     private val transaksjonBehandler: TransaksjonBehandler,
     private val kommandoLogger: KommandoLogger? = null,
 ) {
+    private val log = logger()
+
     fun utfør(
         plan: Plan,
         kommando: Kommando? = null,
     ) {
-        val ekspandertPlan = ekspander(plan)
+        val ekspandertPlan =
+            ekspander(plan)
+                .also {
+                    if (it != plan) {
+                        log.debug("Ekspandert plan: {}", mapOf("plan" to plan, "ekspandertPlan" to it))
+                    }
+                }
         val result =
-            kotlin.runCatching {
-                utførUtenEkspansjon(ekspandertPlan)
-            }
+            kotlin
+                .runCatching {
+                    utførUtenEkspansjon(ekspandertPlan)
+                }.onSuccess {
+                    log.debug("Utført plan: {}", mapOf("plan" to ekspandertPlan))
+                }.onFailure {
+                    log.error("Utført plan feilet: ${mapOf("plan" to ekspandertPlan)}", it)
+                }
+
         kommandoLogger?.loggKommandoUtførelse(
             kommando = kommando,
             plan = ekspandertPlan,
@@ -61,6 +76,7 @@ class PlanBehandler(
     ) {
         if (transaksjon == Transaksjon.INGEN) {
             block()
+            return
         }
         val propagasjon =
             when (transaksjon) {

@@ -16,6 +16,10 @@ data class SynkroniserArbeidsforhold(
     val fnr: String,
 ) : Kommando
 
+data class ArbeidsforholdNotifikasjonKommando(
+    val fnr: List<String>,
+) : Kommando
+
 data class AvbrytSykmelding(
     val sykmeldingId: String,
     val fnr: String,

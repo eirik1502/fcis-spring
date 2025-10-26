@@ -2,17 +2,21 @@ package no.eirikhs.fktis.fktis.skall
 
 import no.eirikhs.fktis.fktis.kjerne.Kommando
 import no.eirikhs.fktis.fktis.kjerne.Plan
+import no.eirikhs.fktis.utils.logger
 import kotlin.reflect.KClass
 
 class KommandoPlanleggerDistributør(
     private val behandlere: Collection<KommandoPlanlegger<*>>,
 ) {
+    private val log = logger()
     private val behandlerVedKommandoType: Map<KClass<out Kommando>, KommandoPlanlegger<*>> =
         behandlere.associateBy { it.kommandoType }
 
     fun planlegg(kommando: Kommando): Plan {
         val behandler = finnBehandler(kommando)
-        return behandler.utfør(kommando)
+        return behandler.utfør(kommando).also {
+            log.debug("Planlagt kommando: {}", mapOf("kommando" to kommando, "plan" to it))
+        }
     }
 
     fun hentAlleBehandlere(): Set<KommandoPlanlegger<*>> = behandlere.toSet()
