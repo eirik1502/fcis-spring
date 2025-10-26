@@ -4,13 +4,13 @@ import no.eirikhs.fktis.fktis.kjerne.Kommando
 import no.eirikhs.fktis.fktis.kjerne.Plan
 import kotlin.reflect.KClass
 
-class KommandoDistributør(
+class KommandoPlanleggerDistributør(
     private val behandlere: Collection<KommandoPlanlegger<*>>,
 ) {
     private val behandlerVedKommandoType: Map<KClass<out Kommando>, KommandoPlanlegger<*>> =
         behandlere.associateBy { it.kommandoType }
 
-    fun utfør(kommando: Kommando): Plan {
+    fun planlegg(kommando: Kommando): Plan {
         val behandler = finnBehandler(kommando)
         return behandler.utfør(kommando)
     }

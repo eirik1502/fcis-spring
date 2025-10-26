@@ -9,20 +9,20 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class FktisConfig {
     @Bean
-    fun kommandoDistributør(kommandoBehandlere: List<KommandoPlanlegger<*>>): KommandoDistributør =
-        KommandoDistributør(behandlere = kommandoBehandlere)
+    fun kommandoDistributør(kommandoBehandlere: List<KommandoPlanlegger<*>>): KommandoPlanleggerDistributør =
+        KommandoPlanleggerDistributør(behandlere = kommandoBehandlere)
 
     @Bean
     fun effektDistributør(effektBehandlere: List<EffektBehandler<*>>): EffektDistributør = EffektDistributør(behandlere = effektBehandlere)
 
     @Bean
     fun kommandoService(
-        kommandoDistributør: KommandoDistributør,
+        kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
         effektDistributør: EffektDistributør,
         kommandoLoggRepository: KommandoLoggRepository,
     ): KommandoService =
         KommandoServiceImpl(
-            kommandoDistributør = kommandoDistributør,
+            kommandoPlanleggerDistributør = kommandoPlanleggerDistributør,
             effektDistributør = effektDistributør,
             kommandoLogger = KommandoLoggRepositoryLogger(kommandoLoggRepository),
         )

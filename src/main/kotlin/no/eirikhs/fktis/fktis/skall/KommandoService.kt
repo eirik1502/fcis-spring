@@ -23,7 +23,7 @@ data class KommandoMetadata(
 )
 
 class KommandoServiceImpl(
-    private val kommandoDistributør: KommandoDistributør,
+    private val kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
     private val effektDistributør: EffektDistributør,
     private val kommandoLogger: KommandoLogger? = null,
 ) : KommandoService {
@@ -49,7 +49,7 @@ class KommandoServiceImpl(
     }
 
     override fun planleggKommando(kommando: Kommando): Plan {
-        val plan = kommandoDistributør.utfør(kommando)
+        val plan = kommandoPlanleggerDistributør.planlegg(kommando)
         logger.info(
             "Planlagt kommandp: $kommando" +
                 "\n\tkommando: ${objectMapper.writeValueAsString(kommando)}" +
