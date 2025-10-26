@@ -13,13 +13,13 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class EffektBehandlerConfig {
     @Bean
-    fun utførKommandoEffektUtfører() =
+    fun utførKommandoEffektBehandler() =
         lagEffektBehandler<UtførKommando> { effekt ->
             println("[Ikke implementert] Utfører kommando fra effekt: ${effekt.kommando}")
         }
 
     @Bean
-    fun slettSykmeldingEffektUtfører(sykmeldingRepository: SykmeldingRepository) =
+    fun slettSykmeldingEffektBehandler(sykmeldingRepository: SykmeldingRepository) =
         lagEffektBehandler<SlettSykmelding> { effekt ->
             sykmeldingRepository.findBySykmeldingId(effekt.sykmeldingId)?.let {
                 sykmeldingRepository.delete(it)
@@ -27,13 +27,13 @@ class EffektBehandlerConfig {
         }
 
     @Bean
-    fun lagreSykmeldingEffektUtfører(sykmeldingRepository: SykmeldingRepository) =
+    fun lagreSykmeldingEffektBehandler(sykmeldingRepository: SykmeldingRepository) =
         lagEffektBehandler<LagreSykmelding> { effekt ->
             sykmeldingRepository.save(effekt.sykmelding)
         }
 
     @Bean
-    fun lagreArbeidsforholdEffektUtfører(arbeidsforholdRepository: ArbeidsforholdRepository) =
+    fun lagreArbeidsforholdEffektBehandler(arbeidsforholdRepository: ArbeidsforholdRepository) =
         lagEffektBehandler<LagreArbeidsforhold> { effekt ->
             arbeidsforholdRepository.save(effekt.arbeidsforhold)
         }

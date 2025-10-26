@@ -16,13 +16,13 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class KommandoBehandlerConfig {
     @Bean
-    fun noOpPlanlegger() =
+    fun noOpKommandoBehandler() =
         lagKommandoBehandler<NoOpKommando> {
             Plan.TOM
         }
 
     @Bean
-    fun behandleSykmeldingHendelsePlanlegger(sykmeldingRepository: SykmeldingRepository) =
+    fun behandleSykmeldingHendelseKommandoBehandler(sykmeldingRepository: SykmeldingRepository) =
         lagKommandoBehandler<HåndterSykmeldingHendelse> { kommando ->
             behandleSykmeldingHendelse(
                 sykmeldingId = kommando.sykmeldingId,
@@ -32,7 +32,7 @@ class KommandoBehandlerConfig {
         }
 
     @Bean
-    fun synkroniserArbeidsforholdPlanlegger(
+    fun synkroniserArbeidsforholdKommandoBehandler(
         aaregKlient: AaregKlient,
         arbeidsforholdRepository: ArbeidsforholdRepository,
     ) = lagKommandoBehandler<SynkroniserArbeidsforhold> { kommando ->
