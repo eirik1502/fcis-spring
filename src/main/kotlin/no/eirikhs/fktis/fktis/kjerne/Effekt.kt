@@ -1,3 +1,3 @@
 package no.eirikhs.fktis.fktis.kjerne
 
-interface Effekt
+interface Effekt : PlanSteg

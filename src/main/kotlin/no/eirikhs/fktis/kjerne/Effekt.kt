@@ -5,10 +5,6 @@ import no.eirikhs.fktis.kjerne.arbeidsforhold.Arbeidsforhold
 import no.eirikhs.fktis.kjerne.bekreftelse.Bekreftelse
 import no.eirikhs.fktis.kjerne.sykmelding.Sykmelding
 
-data class UtførKommando(
-    val kommando: Kommando,
-) : Effekt
-
 data class LagreSykmelding(
     val sykmelding: Sykmelding,
 ) : Effekt

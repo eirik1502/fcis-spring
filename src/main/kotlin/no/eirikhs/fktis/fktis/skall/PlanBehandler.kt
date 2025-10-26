@@ -3,8 +3,9 @@ package no.eirikhs.fktis.fktis.skall
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
+import no.eirikhs.fktis.fktis.kjerne.Effekt
 import no.eirikhs.fktis.fktis.kjerne.Plan
-import no.eirikhs.fktis.kjerne.UtførKommando
+import no.eirikhs.fktis.fktis.kjerne.UtførKommandoSteg
 import no.eirikhs.fktis.skall.config.EFFEKT_JACKON_MODULE
 import no.eirikhs.fktis.skall.config.KOMMANDO_JACKSON_MODULE
 import no.eirikhs.fktis.utils.logger
@@ -39,6 +40,7 @@ class PlanBehandler(
         }
 
         for (effekt in ekspandertPlan.effekter) {
+            check(effekt is Effekt)
             effektDistributør.utfør(effekt)
         }
     }
@@ -47,7 +49,7 @@ class PlanBehandler(
         val ekspanderteEffekter =
             plan.effekter.flatMap { effekt ->
                 when (effekt) {
-                    is UtførKommando -> {
+                    is UtførKommandoSteg -> {
                         kommandoPlanleggerDistributør.planlegg(effekt.kommando).effekter
                     }
                     else -> listOf(effekt)

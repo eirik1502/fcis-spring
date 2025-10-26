@@ -2,7 +2,7 @@ package no.eirikhs.fktis.fktistest.kjerne
 
 import no.eirikhs.fktis.fktis.kjerne.Kommando
 import no.eirikhs.fktis.fktis.kjerne.Plan
-import no.eirikhs.fktis.kjerne.UtførKommando
+import no.eirikhs.fktis.fktis.kjerne.UtførKommandoSteg
 
 inline fun <reified T> Plan.shouldContainEffekt(): T {
     val matchendeEffekter = effekter.filterIsInstance<T>()
@@ -13,7 +13,7 @@ inline fun <reified T> Plan.shouldContainEffekt(): T {
 }
 
 inline fun <reified K : Kommando> Plan.shouldContainUtførKommandoEffekt(): K {
-    val effekt = shouldContainEffekt<UtførKommando>()
+    val effekt = shouldContainEffekt<UtførKommandoSteg>()
     val kommando = effekt.kommando
     assert(kommando is K) {
         "Forventet UtførKommando med kommando av type ${K::class.simpleName}, "

@@ -1,11 +1,13 @@
 package no.eirikhs.fktis.fktis.kjerne
 
 data class Plan(
-    val effekter: List<Effekt>,
+    val effekter: List<PlanSteg>,
 ) {
-    constructor(vararg effekter: Effekt) : this(effekter = effekter.toList())
+    constructor(vararg effekter: PlanSteg) : this(effekter = effekter.toList())
 
     companion object {
         val TOM = Plan()
     }
 }
+
+interface PlanSteg

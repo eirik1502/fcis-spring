@@ -1,11 +1,9 @@
 package no.eirikhs.fktis.fktis.kjerne
 
-import no.eirikhs.fktis.kjerne.UtførKommando
-
 fun byggPlan(bygger: PlanBygger.() -> Unit): Plan = PlanBygger().apply(bygger).bygg()
 
 class PlanBygger {
-    private val effekter: MutableList<Effekt> = mutableListOf()
+    private val effekter: MutableList<PlanSteg> = mutableListOf()
 
     fun effekt(effekt: Effekt) {
         effekter.add(effekt)
@@ -16,7 +14,7 @@ class PlanBygger {
     }
 
     fun kommando(kommando: Kommando) {
-        effekter.add(UtførKommando(kommando = kommando))
+        effekter.add(UtførKommandoSteg(kommando = kommando))
     }
 
     operator fun Effekt.unaryPlus() {

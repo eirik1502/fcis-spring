@@ -1,5 +1,6 @@
 package no.eirikhs.fktis.skall.config
 
+import no.eirikhs.fktis.fktis.kjerne.UtførKommandoSteg
 import no.eirikhs.fktis.fktis.skall.integrasjoner.lagEffektJacksonModule
 import no.eirikhs.fktis.fktis.skall.integrasjoner.lagKommandoJacksonModule
 import no.eirikhs.fktis.kjerne.*
@@ -28,7 +29,7 @@ val KOMMANDO_JACKSON_MODULE =
 val EFFEKT_JACKON_MODULE =
     lagEffektJacksonModule(
         mapOf(
-            "UTFØR_KOMMANDO" to UtførKommando::class,
+            // "UTFØR_KOMMANDO" to UtførKommandoSteg::class,
             "LAGRE_SYKMELDING" to LagreSykmelding::class,
             "SLETT_SYKMELDING" to SlettSykmelding::class,
             "LAGRE_BEKREFTELSE" to LagreBekreftelse::class,
