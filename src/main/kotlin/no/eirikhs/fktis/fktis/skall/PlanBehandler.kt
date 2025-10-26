@@ -39,7 +39,7 @@ class PlanBehandler(
             )
         }
 
-        for (effekt in ekspandertPlan.effekter) {
+        for (effekt in ekspandertPlan.steg) {
             check(effekt is Effekt)
             effektDistributør.utfør(effekt)
         }
@@ -47,14 +47,19 @@ class PlanBehandler(
 
     private fun ekspander(plan: Plan): Plan {
         val ekspanderteEffekter =
-            plan.effekter.flatMap { effekt ->
+            plan.steg.flatMap { effekt ->
                 when (effekt) {
                     is UtførKommandoSteg -> {
-                        kommandoPlanleggerDistributør.planlegg(effekt.kommando).effekter
+                        kommandoPlanleggerDistributør.planlegg(effekt.kommando).steg
                     }
                     else -> listOf(effekt)
                 }
             }
-        return Plan(ekspanderteEffekter)
+        val ekspandertPlan = Plan(ekspanderteEffekter)
+        return if (ekspandertPlan != plan) {
+            ekspander(ekspandertPlan)
+        } else {
+            ekspandertPlan
+        }
     }
 }

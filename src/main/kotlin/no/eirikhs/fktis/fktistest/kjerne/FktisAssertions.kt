@@ -5,7 +5,7 @@ import no.eirikhs.fktis.fktis.kjerne.Plan
 import no.eirikhs.fktis.fktis.kjerne.UtførKommandoSteg
 
 inline fun <reified T> Plan.shouldContainEffekt(): T {
-    val matchendeEffekter = effekter.filterIsInstance<T>()
+    val matchendeEffekter = steg.filterIsInstance<T>()
     if (matchendeEffekter.isEmpty()) {
         throw AssertionError("Forventet effekt av type ${T::class.simpleName}")
     }
@@ -22,7 +22,7 @@ inline fun <reified K : Kommando> Plan.shouldContainUtførKommandoEffekt(): K {
 }
 
 inline fun <reified T> Plan.shouldNotContainEffekt() {
-    val effekt = effekter.find { T::class.isInstance(it) }
+    val effekt = steg.find { T::class.isInstance(it) }
     if (effekt != null) {
         throw AssertionError("Forventet ikke effekt av type ${T::class.simpleName}")
     }

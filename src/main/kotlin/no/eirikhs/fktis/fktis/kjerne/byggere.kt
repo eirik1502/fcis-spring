@@ -1,20 +1,33 @@
 package no.eirikhs.fktis.fktis.kjerne
 
-fun byggPlan(bygger: PlanBygger.() -> Unit): Plan = PlanBygger().apply(bygger).bygg()
+@DslMarker
+annotation class PlanbyggerDsl
 
-class PlanBygger {
-    private val effekter: MutableList<PlanSteg> = mutableListOf()
+fun byggPlan(
+    unitOfWork: UnitOfWork = UnitOfWork.INGEN,
+    bygger: PlanBygger.() -> Unit,
+): Plan = PlanBygger(unitOfWork = unitOfWork).apply(bygger).bygg()
+
+@PlanbyggerDsl
+class PlanBygger(
+    private val unitOfWork: UnitOfWork = UnitOfWork.INGEN,
+) {
+    private val steg: MutableList<PlanSteg> = mutableListOf()
 
     fun effekt(effekt: Effekt) {
-        effekter.add(effekt)
+        steg.add(effekt)
     }
 
     fun effekter(effekter: Collection<Effekt>) {
-        this.effekter.addAll(effekter)
+        this.steg.addAll(effekter)
     }
 
     fun kommando(kommando: Kommando) {
-        effekter.add(UtførKommandoSteg(kommando = kommando))
+        steg.add(UtførKommandoSteg(kommando = kommando))
+    }
+
+    fun plan(plan: Plan) {
+        steg.add(plan)
     }
 
     operator fun Effekt.unaryPlus() {
@@ -29,5 +42,13 @@ class PlanBygger {
         kommando(this)
     }
 
-    fun bygg(): Plan = Plan(effekter)
+    operator fun Plan.unaryPlus() {
+        plan(this)
+    }
+
+    fun bygg(): Plan =
+        Plan(
+            steg = steg,
+            unitOfWork = unitOfWork,
+        )
 }
