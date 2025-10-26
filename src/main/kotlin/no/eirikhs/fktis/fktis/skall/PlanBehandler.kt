@@ -1,43 +1,27 @@
 package no.eirikhs.fktis.fktis.skall
 
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
-import no.eirikhs.fktis.fktis.kjerne.Effekt
-import no.eirikhs.fktis.fktis.kjerne.Plan
-import no.eirikhs.fktis.fktis.kjerne.PlanSteg
-import no.eirikhs.fktis.fktis.kjerne.UtførKommandoSteg
-import no.eirikhs.fktis.skall.config.EFFEKT_JACKON_MODULE
-import no.eirikhs.fktis.skall.config.KOMMANDO_JACKSON_MODULE
-import no.eirikhs.fktis.utils.logger
+import no.eirikhs.fktis.fktis.kjerne.*
 
 class PlanBehandler(
     private val effektDistributør: EffektDistributør,
     private val kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
+    private val kommandoLogger: KommandoLogger? = null,
 ) {
-    private val log = logger()
-    private val objectMapper =
-        jacksonMapperBuilder()
-            .addModule(JavaTimeModule())
-            .addModule(KOMMANDO_JACKSON_MODULE)
-            .addModule(EFFEKT_JACKON_MODULE)
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-            .build()
-            .writerWithDefaultPrettyPrinter()
-
-    fun utfør(plan: Plan) {
+    fun utfør(
+        plan: Plan,
+        kommando: Kommando? = null,
+    ) {
         val ekspandertPlan = ekspander(plan)
-
-        log.info(
-            "Plan ekspandert: " +
-                objectMapper.writeValueAsString(
-                    mapOf(
-                        "plan" to plan,
-                        "ekspandertPlan" to ekspandertPlan,
-                    ),
-                ),
+        val result =
+            kotlin.runCatching {
+                utførUtenEkspansjon(ekspandertPlan)
+            }
+        kommandoLogger?.loggKommandoUtførelse(
+            kommando = kommando,
+            plan = ekspandertPlan,
+            suksess = result.isSuccess,
+            feil = result.exceptionOrNull(),
         )
-        utførUtenEkspansjon(ekspandertPlan)
     }
 
     private fun utførUtenEkspansjon(plan: Plan) {

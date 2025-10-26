@@ -19,10 +19,12 @@ class FktisConfig {
     fun planBehandler(
         effektDistributør: EffektDistributør,
         kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
+        kommandoLogger: KommandoLogger,
     ): PlanBehandler =
         PlanBehandler(
             effektDistributør = effektDistributør,
             kommandoPlanleggerDistributør = kommandoPlanleggerDistributør,
+            kommandoLogger = kommandoLogger,
         )
 
     @Bean
@@ -33,11 +35,9 @@ class FktisConfig {
     fun kommandoService(
         kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
         planBehandler: PlanBehandler,
-        kommandoLogger: KommandoLogger,
     ): KommandoService =
         KommandoServiceImpl(
             kommandoPlanleggerDistributør = kommandoPlanleggerDistributør,
             planBehandler = planBehandler,
-            kommandoLogger = kommandoLogger,
         )
 }

@@ -27,7 +27,7 @@ data class KommandoLogg(
     val kommandoLoggId: String? = null,
     val opprettet: Instant = Instant.now(),
     val traceId: String? = null,
-    val kommando: Kommando,
+    val kommando: Kommando? = null,
     val plan: Plan,
     val suksess: Boolean = true,
     val feilmelding: String? = null,
@@ -40,7 +40,7 @@ class KommandoLoggRepositoryLogger(
     private val repository: KommandoLoggRepository,
 ) : KommandoLogger {
     override fun loggKommandoUtførelse(
-        kommando: Kommando,
+        kommando: Kommando?,
         plan: Plan,
         suksess: Boolean,
         feil: Throwable?,

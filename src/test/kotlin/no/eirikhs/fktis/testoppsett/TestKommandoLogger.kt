@@ -24,7 +24,7 @@ class TestKommandoLogger : KommandoLogger {
             .writerWithDefaultPrettyPrinter()
 
     override fun loggKommandoUtførelse(
-        kommando: Kommando,
+        kommando: Kommando?,
         plan: Plan,
         suksess: Boolean,
         feil: Throwable?,
@@ -51,31 +51,6 @@ class TestKommandoLogger : KommandoLogger {
                     ),
                 ),
             )
-        }
-    }
-}
-
-class Slf4jKommandoLogger(
-    private val logger: Logger,
-) : KommandoLogger {
-    override fun loggKommandoUtførelse(
-        kommando: Kommando,
-        plan: Plan,
-        suksess: Boolean,
-        feil: Throwable?,
-        metadata: KommandoMetadata?,
-    ) {
-        val message =
-            "Kommando utført" +
-                mapOf(
-                    "kommando" to kommando,
-                    "plan" to plan,
-                    "metadata" to metadata,
-                )
-        if (suksess) {
-            logger.info(message)
-        } else {
-            logger.error(message, feil)
         }
     }
 }

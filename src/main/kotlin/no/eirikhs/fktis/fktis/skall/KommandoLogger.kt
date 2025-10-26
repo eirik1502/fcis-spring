@@ -5,7 +5,7 @@ import no.eirikhs.fktis.fktis.kjerne.Plan
 
 interface KommandoLogger {
     fun loggKommandoUtførelse(
-        kommando: Kommando,
+        kommando: Kommando?,
         plan: Plan,
         suksess: Boolean = true,
         feil: Throwable? = null,

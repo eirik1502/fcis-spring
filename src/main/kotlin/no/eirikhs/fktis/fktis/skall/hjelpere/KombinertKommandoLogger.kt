@@ -11,7 +11,7 @@ class KombinertKommandoLogger(
     constructor(vararg logger: KommandoLogger) : this(logger.toList())
 
     override fun loggKommandoUtførelse(
-        kommando: Kommando,
+        kommando: Kommando?,
         plan: Plan,
         suksess: Boolean,
         feil: Throwable?,

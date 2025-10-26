@@ -10,7 +10,7 @@ class Slf4jKommandoLogger(
     private val logger: Logger,
 ) : KommandoLogger {
     override fun loggKommandoUtførelse(
-        kommando: Kommando,
+        kommando: Kommando?,
         plan: Plan,
         suksess: Boolean,
         feil: Throwable?,
