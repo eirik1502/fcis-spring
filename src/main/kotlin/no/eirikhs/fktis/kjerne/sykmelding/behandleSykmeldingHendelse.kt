@@ -29,9 +29,6 @@ fun behandleSykmeldingHendelse(
             +SlettSykmelding(sykmeldingId = sykmeldingId)
         }
     }
-    +byggPlan {
-        effekt(SlettSykmelding(sykmeldingId = sykmeldingId))
-    }
 }
 
 internal fun EksternSykmelding.tilSykmelding(): Sykmelding =

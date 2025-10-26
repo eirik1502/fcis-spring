@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
 import no.eirikhs.fktis.fktis.kjerne.Effekt
 import no.eirikhs.fktis.fktis.kjerne.Plan
+import no.eirikhs.fktis.fktis.kjerne.PlanSteg
 import no.eirikhs.fktis.fktis.kjerne.UtførKommandoSteg
 import no.eirikhs.fktis.skall.config.EFFEKT_JACKON_MODULE
 import no.eirikhs.fktis.skall.config.KOMMANDO_JACKSON_MODULE
@@ -27,35 +28,39 @@ class PlanBehandler(
     fun utfør(plan: Plan) {
         val ekspandertPlan = ekspander(plan)
 
-        if (plan != ekspandertPlan) {
-            log.info(
-                "Plan ekspandert: " +
-                    objectMapper.writeValueAsString(
-                        mapOf(
-                            "plan" to plan,
-                            "ekspandertPlan" to ekspandertPlan,
-                        ),
+        log.info(
+            "Plan ekspandert: " +
+                objectMapper.writeValueAsString(
+                    mapOf(
+                        "plan" to plan,
+                        "ekspandertPlan" to ekspandertPlan,
                     ),
-            )
-        }
+                ),
+        )
+        utførUtenEkspansjon(ekspandertPlan)
+    }
 
-        for (effekt in ekspandertPlan.steg) {
-            check(effekt is Effekt)
-            effektDistributør.utfør(effekt)
+    private fun utførUtenEkspansjon(plan: Plan) {
+        for (steg in plan.steg) {
+            when (steg) {
+                is Effekt -> effektDistributør.utfør(steg)
+                is Plan -> utførUtenEkspansjon(steg)
+                is UtførKommandoSteg -> error("UtførKommandoSteg skal ikke forekomme i ekspandert plan")
+            }
         }
     }
 
     private fun ekspander(plan: Plan): Plan {
-        val ekspanderteEffekter =
-            plan.steg.flatMap { effekt ->
-                when (effekt) {
-                    is UtførKommandoSteg -> {
-                        kommandoPlanleggerDistributør.planlegg(effekt.kommando).steg
-                    }
-                    else -> listOf(effekt)
+        val ekspanderteEffekter: List<PlanSteg> =
+            plan.steg.map { steg ->
+                when (steg) {
+                    is UtførKommandoSteg ->
+                        ekspander(kommandoPlanleggerDistributør.planlegg(steg.kommando))
+                    is Plan -> ekspander(steg)
+                    is Effekt -> steg
                 }
             }
-        val ekspandertPlan = Plan(ekspanderteEffekter)
+        val ekspandertPlan = plan.copy(steg = ekspanderteEffekter)
         return if (ekspandertPlan != plan) {
             ekspander(ekspandertPlan)
         } else {

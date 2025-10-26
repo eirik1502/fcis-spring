@@ -3,6 +3,7 @@ package no.eirikhs.fktis.kjerne.arbeidsforhold
 import no.eirikhs.fktis.fktis.kjerne.byggPlan
 import no.eirikhs.fktis.kjerne.LagreArbeidsforhold
 import no.eirikhs.fktis.kjerne.SlettArbeidsforhold
+import no.eirikhs.fktis.kjerne.SynkroniserArbeidsforhold
 
 fun synkroniserArbeidsforhold(
     fnr: String,

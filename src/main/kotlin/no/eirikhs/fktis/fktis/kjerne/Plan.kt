@@ -11,10 +11,10 @@ data class Plan(
     }
 }
 
+sealed interface PlanSteg
+
 enum class UnitOfWork {
     INGEN,
     PÅKREVD,
     NESTET,
 }
-
-interface PlanSteg

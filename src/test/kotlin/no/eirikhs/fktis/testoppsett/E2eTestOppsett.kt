@@ -2,6 +2,7 @@ package no.eirikhs.fktis.testoppsett
 
 import no.eirikhs.fktis.DemoApplication
 import no.eirikhs.fktis.TestContainersOppsett
+import no.eirikhs.fktis.fktis.skall.KommandoLogger
 import no.eirikhs.fktis.skall.repositories.ArbeidsforholdRepository
 import no.eirikhs.fktis.skall.repositories.KommandoLoggRepository
 import no.eirikhs.fktis.skall.repositories.SykmeldingRepository
@@ -45,6 +46,9 @@ abstract class E2eTestOppsett {
     class TestOverrskrivConfig {
         @Bean
         fun aaregKlient() = AaregKlientFake()
+
+        @Bean
+        fun kommandoLogger(): KommandoLogger = TestKommandoLogger()
     }
 
     protected fun resettTilstand() {

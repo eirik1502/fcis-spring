@@ -26,14 +26,18 @@ class FktisConfig {
         )
 
     @Bean
+    fun kommandoLogger(kommandoLoggRepository: KommandoLoggRepository): KommandoLogger =
+        KommandoLoggRepositoryLogger(kommandoLoggRepository)
+
+    @Bean
     fun kommandoService(
         kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
         planBehandler: PlanBehandler,
-        kommandoLoggRepository: KommandoLoggRepository,
+        kommandoLogger: KommandoLogger,
     ): KommandoService =
         KommandoServiceImpl(
             kommandoPlanleggerDistributør = kommandoPlanleggerDistributør,
             planBehandler = planBehandler,
-            kommandoLogger = KommandoLoggRepositoryLogger(kommandoLoggRepository),
+            kommandoLogger = kommandoLogger,
         )
 }

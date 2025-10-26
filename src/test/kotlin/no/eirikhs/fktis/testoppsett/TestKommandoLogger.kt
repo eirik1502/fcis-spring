@@ -1,0 +1,81 @@
+package no.eirikhs.fktis.testoppsett
+
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
+import no.eirikhs.fktis.fktis.kjerne.Kommando
+import no.eirikhs.fktis.fktis.kjerne.Plan
+import no.eirikhs.fktis.fktis.skall.KommandoLogger
+import no.eirikhs.fktis.fktis.skall.KommandoMetadata
+import no.eirikhs.fktis.skall.config.EFFEKT_JACKON_MODULE
+import no.eirikhs.fktis.skall.config.KOMMANDO_JACKSON_MODULE
+import no.eirikhs.fktis.utils.logger
+import org.slf4j.Logger
+
+class TestKommandoLogger : KommandoLogger {
+    private val log = logger()
+    private val objectMapper =
+        jacksonMapperBuilder()
+            .addModule(JavaTimeModule())
+            .addModule(KOMMANDO_JACKSON_MODULE)
+            .addModule(EFFEKT_JACKON_MODULE)
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+            .build()
+            .writerWithDefaultPrettyPrinter()
+
+    override fun loggKommandoUtførelse(
+        kommando: Kommando,
+        plan: Plan,
+        suksess: Boolean,
+        feil: Throwable?,
+        metadata: KommandoMetadata?,
+    ) {
+        if (suksess) {
+            log.info(
+                objectMapper.writeValueAsString(
+                    mapOf(
+                        "kommando" to kommando,
+                        "plan" to plan,
+                        "metadata" to metadata,
+                    ),
+                ),
+            )
+        } else {
+            log.info(
+                objectMapper.writeValueAsString(
+                    mapOf(
+                        "kommando" to kommando,
+                        "plan" to plan,
+                        "metadata" to metadata,
+                        "feil" to feil?.stackTraceToString(),
+                    ),
+                ),
+            )
+        }
+    }
+}
+
+class Slf4jKommandoLogger(
+    private val logger: Logger,
+) : KommandoLogger {
+    override fun loggKommandoUtførelse(
+        kommando: Kommando,
+        plan: Plan,
+        suksess: Boolean,
+        feil: Throwable?,
+        metadata: KommandoMetadata?,
+    ) {
+        val message =
+            "Kommando utført" +
+                mapOf(
+                    "kommando" to kommando,
+                    "plan" to plan,
+                    "metadata" to metadata,
+                )
+        if (suksess) {
+            logger.info(message)
+        } else {
+            logger.error(message, feil)
+        }
+    }
+}
