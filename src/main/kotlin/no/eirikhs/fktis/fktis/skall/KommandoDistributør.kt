@@ -5,9 +5,9 @@ import no.eirikhs.fktis.fktis.kjerne.Plan
 import kotlin.reflect.KClass
 
 class KommandoDistributør(
-    private val behandlere: Collection<KommandoBehandler<*>>,
+    private val behandlere: Collection<KommandoPlanlegger<*>>,
 ) {
-    private val behandlerVedKommandoType: Map<KClass<out Kommando>, KommandoBehandler<*>> =
+    private val behandlerVedKommandoType: Map<KClass<out Kommando>, KommandoPlanlegger<*>> =
         behandlere.associateBy { it.kommandoType }
 
     fun utfør(kommando: Kommando): Plan {
@@ -15,23 +15,23 @@ class KommandoDistributør(
         return behandler.utfør(kommando)
     }
 
-    fun hentAlleBehandlere(): Set<KommandoBehandler<*>> = behandlere.toSet()
+    fun hentAlleBehandlere(): Set<KommandoPlanlegger<*>> = behandlere.toSet()
 
     fun hentAlleKommandoTyper(): Set<KClass<out Kommando>> =
         hentAlleBehandlere()
             .map { it.kommandoType }
             .toSet()
 
-    private fun <K : Kommando> finnBehandler(kommando: K): KommandoBehandler<K> {
+    private fun <K : Kommando> finnBehandler(kommando: K): KommandoPlanlegger<K> {
         @Suppress("UNCHECKED_CAST")
-        return finnBehandler(kommando::class) as KommandoBehandler<K>
+        return finnBehandler(kommando::class) as KommandoPlanlegger<K>
     }
 
-    private fun <K : Kommando> finnBehandler(kommandoType: KClass<K>): KommandoBehandler<K> {
+    private fun <K : Kommando> finnBehandler(kommandoType: KClass<K>): KommandoPlanlegger<K> {
         val behandler =
             behandlerVedKommandoType[kommandoType]
                 ?: error("Ingen behandler funnet for kommando type: ${kommandoType.simpleName}")
         @Suppress("UNCHECKED_CAST")
-        return behandler as KommandoBehandler<K>
+        return behandler as KommandoPlanlegger<K>
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class FktisConfig {
     @Bean
-    fun kommandoDistributør(kommandoBehandlere: List<KommandoBehandler<*>>): KommandoDistributør =
+    fun kommandoDistributør(kommandoBehandlere: List<KommandoPlanlegger<*>>): KommandoDistributør =
         KommandoDistributør(behandlere = kommandoBehandlere)
 
     @Bean
