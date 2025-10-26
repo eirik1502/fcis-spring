@@ -16,14 +16,24 @@ class FktisConfig {
     fun effektDistributør(effektBehandlere: List<EffektBehandler<*>>): EffektDistributør = EffektDistributør(behandlere = effektBehandlere)
 
     @Bean
+    fun planBehandler(
+        effektDistributør: EffektDistributør,
+        kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
+    ): PlanBehandler =
+        PlanBehandler(
+            effektDistributør = effektDistributør,
+            kommandoPlanleggerDistributør = kommandoPlanleggerDistributør,
+        )
+
+    @Bean
     fun kommandoService(
         kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
-        effektDistributør: EffektDistributør,
+        planBehandler: PlanBehandler,
         kommandoLoggRepository: KommandoLoggRepository,
     ): KommandoService =
         KommandoServiceImpl(
             kommandoPlanleggerDistributør = kommandoPlanleggerDistributør,
-            effektDistributør = effektDistributør,
+            planBehandler = planBehandler,
             kommandoLogger = KommandoLoggRepositoryLogger(kommandoLoggRepository),
         )
 }

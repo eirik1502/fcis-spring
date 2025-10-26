@@ -1,9 +1,15 @@
 package no.eirikhs.fktis.fktis.skall
 
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.MapperFeature
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
 import no.eirikhs.fktis.fktis.kjerne.Kommando
 import no.eirikhs.fktis.fktis.kjerne.Plan
+import no.eirikhs.fktis.skall.config.EFFEKT_JACKON_MODULE
+import no.eirikhs.fktis.skall.config.KOMMANDO_JACKSON_MODULE
 import no.eirikhs.fktis.utils.logger
-import no.eirikhs.fktis.utils.objectMapper
 
 interface KommandoService {
     fun utførKommando(
@@ -24,10 +30,19 @@ data class KommandoMetadata(
 
 class KommandoServiceImpl(
     private val kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
-    private val effektDistributør: EffektDistributør,
+    private val planBehandler: PlanBehandler,
     private val kommandoLogger: KommandoLogger? = null,
 ) : KommandoService {
     private val logger = logger()
+
+    private val objectMapper =
+        jacksonMapperBuilder()
+            .addModule(JavaTimeModule())
+            .addModule(KOMMANDO_JACKSON_MODULE)
+            .addModule(EFFEKT_JACKON_MODULE)
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+            .build()
+            .writerWithDefaultPrettyPrinter()
 
     override fun utførKommando(
         kommando: Kommando,
@@ -51,16 +66,18 @@ class KommandoServiceImpl(
     override fun planleggKommando(kommando: Kommando): Plan {
         val plan = kommandoPlanleggerDistributør.planlegg(kommando)
         logger.info(
-            "Planlagt kommandp: $kommando" +
-                "\n\tkommando: ${objectMapper.writeValueAsString(kommando)}" +
-                "\n\tplan: ${objectMapper.writeValueAsString(plan)}",
+            "Planlagt kommando: " +
+                objectMapper.writeValueAsString(
+                    mapOf(
+                        "kommando" to kommando,
+                        "plan" to plan,
+                    ),
+                ),
         )
         return plan
     }
 
     override fun utførPlan(plan: Plan) {
-        for (effekt in plan.effekter) {
-            effektDistributør.utfør(effekt)
-        }
+        planBehandler.utfør(plan)
     }
 }

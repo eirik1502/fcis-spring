@@ -76,12 +76,12 @@ class CustomValueSerializer<T : Any>(
         val mapper = gen.codec as ObjectMapper
         val objectNode = mapper.createObjectNode()
 
+        objectNode.put(fieldName, getFieldValue(value))
         @Suppress("UNCHECKED_CAST")
         (value::class as KClass<T>).memberProperties.forEach { prop ->
             val propValue = prop.get(value)
             objectNode.set<JsonNode>(prop.name, mapper.valueToTree(propValue))
         }
-        objectNode.put(fieldName, getFieldValue(value))
         gen.writeTree(objectNode)
     }
 }

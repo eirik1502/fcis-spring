@@ -4,7 +4,6 @@ import no.eirikhs.fktis.fktis.skall.hjelpere.lagEffektBehandler
 import no.eirikhs.fktis.kjerne.LagreArbeidsforhold
 import no.eirikhs.fktis.kjerne.LagreSykmelding
 import no.eirikhs.fktis.kjerne.SlettSykmelding
-import no.eirikhs.fktis.kjerne.UtførKommando
 import no.eirikhs.fktis.skall.repositories.ArbeidsforholdRepository
 import no.eirikhs.fktis.skall.repositories.SykmeldingRepository
 import org.springframework.context.annotation.Bean
@@ -12,12 +11,6 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class EffektBehandlerConfig {
-    @Bean
-    fun utførKommandoEffektBehandler() =
-        lagEffektBehandler<UtførKommando> { effekt ->
-            println("[Ikke implementert] Utfører kommando fra effekt: ${effekt.kommando}")
-        }
-
     @Bean
     fun slettSykmeldingEffektBehandler(sykmeldingRepository: SykmeldingRepository) =
         lagEffektBehandler<SlettSykmelding> { effekt ->
