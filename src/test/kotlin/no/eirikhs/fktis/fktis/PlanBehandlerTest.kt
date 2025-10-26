@@ -11,6 +11,7 @@ import no.eirikhs.fktis.fktis.kjerne.byggPlan
 import no.eirikhs.fktis.fktis.skall.EffektDistributør
 import no.eirikhs.fktis.fktis.skall.KommandoPlanleggerDistributør
 import no.eirikhs.fktis.fktis.skall.PlanBehandler
+import no.eirikhs.fktis.fktis.skall.hjelpere.NoOpTransaksjonBehandler
 import org.junit.jupiter.api.Test
 
 class PlanBehandlerTest {
@@ -22,6 +23,7 @@ class PlanBehandlerTest {
         PlanBehandler(
             effektDistributør = effektDistributør,
             kommandoPlanleggerDistributør = kommandoPlanleggerDistributør,
+            transaksjonBehandler = NoOpTransaksjonBehandler,
         )
 
     @Test

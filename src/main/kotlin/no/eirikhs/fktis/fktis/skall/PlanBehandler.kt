@@ -5,6 +5,7 @@ import no.eirikhs.fktis.fktis.kjerne.*
 class PlanBehandler(
     private val effektDistributør: EffektDistributør,
     private val kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
+    private val transaksjonBehandler: TransaksjonBehandler,
     private val kommandoLogger: KommandoLogger? = null,
 ) {
     fun utfør(
@@ -25,11 +26,13 @@ class PlanBehandler(
     }
 
     private fun utførUtenEkspansjon(plan: Plan) {
-        for (steg in plan.steg) {
-            when (steg) {
-                is Effekt -> effektDistributør.utfør(steg)
-                is Plan -> utførUtenEkspansjon(steg)
-                is UtførKommandoSteg -> error("UtførKommandoSteg skal ikke forekomme i ekspandert plan")
+        utførITransaksjon(plan.transaksjon) {
+            for (steg in plan.steg) {
+                when (steg) {
+                    is Effekt -> effektDistributør.utfør(steg)
+                    is Plan -> utførUtenEkspansjon(steg)
+                    is UtførKommandoSteg -> error("UtførKommandoSteg skal ikke forekomme i ekspandert plan")
+                }
             }
         }
     }
@@ -49,6 +52,25 @@ class PlanBehandler(
             ekspander(ekspandertPlan)
         } else {
             ekspandertPlan
+        }
+    }
+
+    private fun utførITransaksjon(
+        transaksjon: Transaksjon,
+        block: () -> Unit,
+    ) {
+        if (transaksjon == Transaksjon.INGEN) {
+            block()
+        }
+        val propagasjon =
+            when (transaksjon) {
+                Transaksjon.PÅKREVD -> TransaksjonPropagasjon.PÅKREVD
+                Transaksjon.NESTET -> TransaksjonPropagasjon.NESTET
+                else -> error("Ukjent transaksjon: $transaksjon")
+            }
+
+        transaksjonBehandler.utfør(propagation = propagasjon) {
+            block()
         }
     }
 }

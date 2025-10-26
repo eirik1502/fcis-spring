@@ -1,10 +1,12 @@
 package no.eirikhs.fktis.skall.config
 
 import no.eirikhs.fktis.fktis.skall.*
+import no.eirikhs.fktis.fktis.skall.integrasjoner.SpringTransaksjonBehandler
 import no.eirikhs.fktis.skall.repositories.KommandoLoggRepository
 import no.eirikhs.fktis.skall.repositories.KommandoLoggRepositoryLogger
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.transaction.PlatformTransactionManager
 
 @Configuration
 class FktisConfig {
@@ -19,17 +21,23 @@ class FktisConfig {
     fun planBehandler(
         effektDistributør: EffektDistributør,
         kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
+        transaksjonBehandler: TransaksjonBehandler,
         kommandoLogger: KommandoLogger,
     ): PlanBehandler =
         PlanBehandler(
             effektDistributør = effektDistributør,
             kommandoPlanleggerDistributør = kommandoPlanleggerDistributør,
+            transaksjonBehandler = transaksjonBehandler,
             kommandoLogger = kommandoLogger,
         )
 
     @Bean
     fun kommandoLogger(kommandoLoggRepository: KommandoLoggRepository): KommandoLogger =
         KommandoLoggRepositoryLogger(kommandoLoggRepository)
+
+    @Bean
+    fun transaksjonBehandler(platformTransactionManager: PlatformTransactionManager): TransaksjonBehandler =
+        SpringTransaksjonBehandler(txManager = platformTransactionManager)
 
     @Bean
     fun kommandoService(

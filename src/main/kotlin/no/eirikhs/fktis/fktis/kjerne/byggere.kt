@@ -4,13 +4,13 @@ package no.eirikhs.fktis.fktis.kjerne
 annotation class PlanbyggerDsl
 
 fun byggPlan(
-    unitOfWork: UnitOfWork = UnitOfWork.INGEN,
+    transaksjon: Transaksjon = Transaksjon.INGEN,
     bygger: PlanBygger.() -> Unit,
-): Plan = PlanBygger(unitOfWork = unitOfWork).apply(bygger).bygg()
+): Plan = PlanBygger(transaksjon = transaksjon).apply(bygger).bygg()
 
 @PlanbyggerDsl
 class PlanBygger(
-    private val unitOfWork: UnitOfWork = UnitOfWork.INGEN,
+    private val transaksjon: Transaksjon = Transaksjon.INGEN,
 ) {
     private val steg: MutableList<PlanSteg> = mutableListOf()
 
@@ -49,6 +49,6 @@ class PlanBygger(
     fun bygg(): Plan =
         Plan(
             steg = steg,
-            unitOfWork = unitOfWork,
+            transaksjon = transaksjon,
         )
 }

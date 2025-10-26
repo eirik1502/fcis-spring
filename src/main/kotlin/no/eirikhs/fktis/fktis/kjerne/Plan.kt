@@ -2,7 +2,7 @@ package no.eirikhs.fktis.fktis.kjerne
 
 data class Plan(
     val steg: List<PlanSteg>,
-    val unitOfWork: UnitOfWork = UnitOfWork.INGEN,
+    val transaksjon: Transaksjon = Transaksjon.INGEN,
 ) : PlanSteg {
     constructor(vararg steg: PlanSteg) : this(steg = steg.toList())
 
@@ -13,7 +13,7 @@ data class Plan(
 
 sealed interface PlanSteg
 
-enum class UnitOfWork {
+enum class Transaksjon {
     INGEN,
     PÅKREVD,
     NESTET,

@@ -17,11 +17,6 @@ class KommandoPlanleggerDistributør(
 
     fun hentAlleBehandlere(): Set<KommandoPlanlegger<*>> = behandlere.toSet()
 
-    fun hentAlleKommandoTyper(): Set<KClass<out Kommando>> =
-        hentAlleBehandlere()
-            .map { it.kommandoType }
-            .toSet()
-
     private fun <K : Kommando> finnBehandler(kommando: K): KommandoPlanlegger<K> {
         @Suppress("UNCHECKED_CAST")
         return finnBehandler(kommando::class) as KommandoPlanlegger<K>
