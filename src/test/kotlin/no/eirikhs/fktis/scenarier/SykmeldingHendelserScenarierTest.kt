@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.get
 
-class SykmeldingHendelser : E2eTestOppsett() {
+class SykmeldingHendelserScenarierTest : E2eTestOppsett() {
     @Autowired
     private lateinit var sykmeldingHendelseHåndterer: SykmeldingHendelseHåndterer
 

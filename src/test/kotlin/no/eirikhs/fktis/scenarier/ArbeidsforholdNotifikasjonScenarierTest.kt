@@ -9,7 +9,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 
-class ArbeidsforholdNotifikasjonTest : E2eTestOppsett() {
+class ArbeidsforholdNotifikasjonScenarierTest : E2eTestOppsett() {
     @Autowired
     lateinit var arbeidsforholdNotifikasjonLytter: ArbeidsforholdNotifikasjonLytter
 
