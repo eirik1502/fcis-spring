@@ -49,8 +49,7 @@ class KommandoServiceImpl(
     }
 
     override fun planleggKommando(kommando: Kommando): Plan {
-        val utfører = kommandoDistributør.finnBehandler(kommando)
-        val plan = utfører.utfør(kommando)
+        val plan = kommandoDistributør.utfør(kommando)
         logger.info(
             "Planlagt kommandp: $kommando" +
                 "\n\tkommando: ${objectMapper.writeValueAsString(kommando)}" +
@@ -61,8 +60,7 @@ class KommandoServiceImpl(
 
     override fun utførPlan(plan: Plan) {
         for (effekt in plan.effekter) {
-            val effektUtfører = effektDistributør.finnEffektUtfører(effekt)
-            effektUtfører.utfør(effekt)
+            effektDistributør.utfør(effekt)
         }
     }
 }

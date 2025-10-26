@@ -1,7 +1,6 @@
 package no.eirikhs.fktis.skall
 
-import no.eirikhs.fktis.fktis.skall.KommandoService
-import no.eirikhs.fktis.fktis.skall.hjelpere.lagEffektUtfører
+import no.eirikhs.fktis.fktis.skall.hjelpere.lagEffektBehandler
 import no.eirikhs.fktis.kjerne.LagreArbeidsforhold
 import no.eirikhs.fktis.kjerne.LagreSykmelding
 import no.eirikhs.fktis.kjerne.SlettSykmelding
@@ -14,14 +13,14 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class EffektBehandlerConfig {
     @Bean
-    fun utførKommandoEffektUtfører(kommandoService: KommandoService) =
-        lagEffektUtfører<UtførKommando> { effekt ->
-            kommandoService.utførKommando(effekt.kommando)
+    fun utførKommandoEffektUtfører() =
+        lagEffektBehandler<UtførKommando> { effekt ->
+            println("[Ikke implementert] Utfører kommando fra effekt: ${effekt.kommando}")
         }
 
     @Bean
     fun slettSykmeldingEffektUtfører(sykmeldingRepository: SykmeldingRepository) =
-        lagEffektUtfører<SlettSykmelding> { effekt ->
+        lagEffektBehandler<SlettSykmelding> { effekt ->
             sykmeldingRepository.findBySykmeldingId(effekt.sykmeldingId)?.let {
                 sykmeldingRepository.delete(it)
             }
@@ -29,13 +28,13 @@ class EffektBehandlerConfig {
 
     @Bean
     fun lagreSykmeldingEffektUtfører(sykmeldingRepository: SykmeldingRepository) =
-        lagEffektUtfører<LagreSykmelding> { effekt ->
+        lagEffektBehandler<LagreSykmelding> { effekt ->
             sykmeldingRepository.save(effekt.sykmelding)
         }
 
     @Bean
     fun lagreArbeidsforholdEffektUtfører(arbeidsforholdRepository: ArbeidsforholdRepository) =
-        lagEffektUtfører<LagreArbeidsforhold> { effekt ->
+        lagEffektBehandler<LagreArbeidsforhold> { effekt ->
             arbeidsforholdRepository.save(effekt.arbeidsforhold)
         }
 }

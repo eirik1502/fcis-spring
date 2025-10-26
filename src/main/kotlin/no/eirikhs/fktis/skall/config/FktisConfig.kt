@@ -1,26 +1,19 @@
 package no.eirikhs.fktis.skall.config
 
-import no.eirikhs.fktis.fktis.skall.EffektDistributør
-import no.eirikhs.fktis.fktis.skall.KommandoDistributør
-import no.eirikhs.fktis.fktis.skall.KommandoService
-import no.eirikhs.fktis.fktis.skall.KommandoServiceImpl
-import no.eirikhs.fktis.fktis.skall.spring.SpringContextEffektDistributør
-import no.eirikhs.fktis.fktis.skall.spring.SpringContextKommandoDistributør
+import no.eirikhs.fktis.fktis.skall.*
 import no.eirikhs.fktis.skall.repositories.KommandoLoggRepository
 import no.eirikhs.fktis.skall.repositories.KommandoLoggRepositoryLogger
-import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 class FktisConfig {
     @Bean
-    fun planleggerRegister(applicationContext: ApplicationContext): KommandoDistributør =
-        SpringContextKommandoDistributør(appContext = applicationContext)
+    fun kommandoDistributør(kommandoBehandlere: List<KommandoBehandler<*>>): KommandoDistributør =
+        KommandoDistributør(behandlere = kommandoBehandlere)
 
     @Bean
-    fun effektUtførerRegister(applicationContext: ApplicationContext): EffektDistributør =
-        SpringContextEffektDistributør(appContext = applicationContext)
+    fun effektDistributør(effektBehandlere: List<EffektBehandler<*>>): EffektDistributør = EffektDistributør(behandlere = effektBehandlere)
 
     @Bean
     fun kommandoService(

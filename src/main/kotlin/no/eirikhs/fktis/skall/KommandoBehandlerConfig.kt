@@ -1,7 +1,7 @@
 package no.eirikhs.fktis.skall
 
 import no.eirikhs.fktis.fktis.kjerne.Plan
-import no.eirikhs.fktis.fktis.skall.hjelpere.lagPlanlegger
+import no.eirikhs.fktis.fktis.skall.hjelpere.lagKommandoBehandler
 import no.eirikhs.fktis.kjerne.HåndterSykmeldingHendelse
 import no.eirikhs.fktis.kjerne.NoOpKommando
 import no.eirikhs.fktis.kjerne.SynkroniserArbeidsforhold
@@ -17,13 +17,13 @@ import org.springframework.context.annotation.Configuration
 class KommandoBehandlerConfig {
     @Bean
     fun noOpPlanlegger() =
-        lagPlanlegger<NoOpKommando> {
+        lagKommandoBehandler<NoOpKommando> {
             Plan.TOM
         }
 
     @Bean
     fun behandleSykmeldingHendelsePlanlegger(sykmeldingRepository: SykmeldingRepository) =
-        lagPlanlegger<HåndterSykmeldingHendelse> { kommando ->
+        lagKommandoBehandler<HåndterSykmeldingHendelse> { kommando ->
             behandleSykmeldingHendelse(
                 sykmeldingId = kommando.sykmeldingId,
                 eksternSykmelding = kommando.sykmelding,
@@ -35,7 +35,7 @@ class KommandoBehandlerConfig {
     fun synkroniserArbeidsforholdPlanlegger(
         aaregKlient: AaregKlient,
         arbeidsforholdRepository: ArbeidsforholdRepository,
-    ) = lagPlanlegger<SynkroniserArbeidsforhold> { kommando ->
+    ) = lagKommandoBehandler<SynkroniserArbeidsforhold> { kommando ->
         synkroniserArbeidsforhold(
             fnr = kommando.fnr,
             aaregArbeidsforhold = aaregKlient.hentArbeidsforhold(fnr = kommando.fnr),
