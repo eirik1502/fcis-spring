@@ -1,4 +1,4 @@
-package no.eirikhs.fktis.fktis.skall.hjelpere
+package no.eirikhs.fktis.fktis.skall.integrasjoner
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
@@ -9,7 +9,6 @@ import com.fasterxml.jackson.module.kotlin.addDeserializer
 import com.fasterxml.jackson.module.kotlin.addSerializer
 import no.eirikhs.fktis.fktis.kjerne.Effekt
 import no.eirikhs.fktis.fktis.kjerne.Kommando
-import no.eirikhs.fktis.kjerne.UtførKommando
 import kotlin.reflect.KClass
 import kotlin.reflect.full.memberProperties
 

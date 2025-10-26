@@ -1,4 +1,4 @@
-package no.eirikhs.fktis.fktis.skall.hjelpere
+package no.eirikhs.fktis.fktis.skall.integrasjoner
 
 import no.eirikhs.fktis.fktis.kjerne.Kommando
 import no.eirikhs.fktis.fktis.kjerne.Plan
