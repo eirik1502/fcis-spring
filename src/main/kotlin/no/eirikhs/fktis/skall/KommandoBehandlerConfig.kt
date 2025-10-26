@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class PlanleggerConfig {
+class KommandoBehandlerConfig {
     @Bean
     fun noOpPlanlegger() =
         lagPlanlegger<NoOpKommando> {

@@ -5,49 +5,49 @@ import no.eirikhs.fktis.fktis.kjerne.Kommando
 import no.eirikhs.fktis.fktis.kjerne.Plan
 import kotlin.reflect.KClass
 
-interface Planlegger<K : Kommando> {
+interface KommandoBehandler<K : Kommando> {
     val kommandoType: KClass<K>
 
     fun utfør(kommando: K): Plan
 }
 
-interface EffektUtfører<E : Effekt> {
+interface EffektBehandler<E : Effekt> {
     val effektType: KClass<E>
 
     fun utfør(effekt: E)
 }
 
-interface PlanleggerRegister {
-    fun hentAllePlanleggere(): Set<Planlegger<*>>
+interface KommandoDistributør {
+    fun hentAlleBehandlere(): Set<KommandoBehandler<*>>
 
-    fun <K : Kommando> finnPlanlegger(kommandoType: KClass<K>): Planlegger<K>
+    fun <K : Kommando> finnBehandler(kommandoType: KClass<K>): KommandoBehandler<K>
 
     fun hentAlleKommandoTyper(): Set<KClass<out Kommando>> =
-        hentAllePlanleggere()
+        hentAlleBehandlere()
             .map { it.kommandoType }
             .toSet()
 
-    fun finnPlanlegger(kommando: Kommando): Planlegger<Kommando> {
+    fun finnBehandler(kommando: Kommando): KommandoBehandler<Kommando> {
         @Suppress("UNCHECKED_CAST")
-        return finnPlanlegger(kommando::class) as Planlegger<Kommando>
+        return finnBehandler(kommando::class) as KommandoBehandler<Kommando>
     }
 }
 
-inline fun <reified K : Kommando> PlanleggerRegister.finnPlanlegger(): Planlegger<K> = finnPlanlegger(K::class)
+inline fun <reified K : Kommando> KommandoDistributør.finnBehandler(): KommandoBehandler<K> = finnBehandler(K::class)
 
-interface EffektUtførerRegister {
-    fun hentAlleEffektUtførere(): Set<EffektUtfører<*>>
+interface EffektDistributør {
+    fun hentAlleEffektUtførere(): Set<EffektBehandler<*>>
 
-    fun <E : Effekt> finnEffektUtfører(effektType: KClass<E>): EffektUtfører<E>
+    fun <E : Effekt> finnEffektUtfører(effektType: KClass<E>): EffektBehandler<E>
 
     fun hentAlleEffektTyper(): Set<KClass<out Effekt>> =
         hentAlleEffektUtførere()
             .map { it.effektType }
             .toSet()
 
-    fun finnEffektUtfører(effekt: Effekt): EffektUtfører<Effekt> {
+    fun finnEffektUtfører(effekt: Effekt): EffektBehandler<Effekt> {
         @Suppress("UNCHECKED_CAST")
-        return finnEffektUtfører(effekt::class) as EffektUtfører<Effekt>
+        return finnEffektUtfører(effekt::class) as EffektBehandler<Effekt>
     }
 }
 

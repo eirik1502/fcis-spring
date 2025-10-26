@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class EffektUtførerConfig {
+class EffektBehandlerConfig {
     @Bean
     fun utførKommandoEffektUtfører(kommandoService: KommandoService) =
         lagEffektUtfører<UtførKommando> { effekt ->

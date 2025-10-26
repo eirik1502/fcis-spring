@@ -23,8 +23,8 @@ data class KommandoMetadata(
 )
 
 class KommandoServiceImpl(
-    private val planleggerRegister: PlanleggerRegister,
-    private val effektUtførerRegister: EffektUtførerRegister,
+    private val kommandoDistributør: KommandoDistributør,
+    private val effektDistributør: EffektDistributør,
     private val kommandoLogger: KommandoLogger? = null,
 ) : KommandoService {
     private val logger = logger()
@@ -49,7 +49,7 @@ class KommandoServiceImpl(
     }
 
     override fun planleggKommando(kommando: Kommando): Plan {
-        val utfører = planleggerRegister.finnPlanlegger(kommando)
+        val utfører = kommandoDistributør.finnBehandler(kommando)
         val plan = utfører.utfør(kommando)
         logger.info(
             "Planlagt kommandp: $kommando" +
@@ -61,7 +61,7 @@ class KommandoServiceImpl(
 
     override fun utførPlan(plan: Plan) {
         for (effekt in plan.effekter) {
-            val effektUtfører = effektUtførerRegister.finnEffektUtfører(effekt)
+            val effektUtfører = effektDistributør.finnEffektUtfører(effekt)
             effektUtfører.utfør(effekt)
         }
     }
