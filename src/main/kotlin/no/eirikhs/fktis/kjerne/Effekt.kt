@@ -1,6 +1,5 @@
 package no.eirikhs.fktis.kjerne
 
-import no.eirikhs.fktis.fktis.kjerne.*
 import no.eirikhs.fktis.kjerne.arbeidsforhold.Arbeidsforhold
 import no.eirikhs.fktis.kjerne.bekreftelse.Bekreftelse
 import no.eirikhs.fktis.kjerne.sykmelding.Sykmelding

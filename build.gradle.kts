@@ -21,6 +21,8 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":fktis"))
+
     // Kotlin
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation(kotlin("stdlib"))

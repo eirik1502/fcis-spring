@@ -1,8 +1,8 @@
 package no.eirikhs.fktis
 
-import no.eirikhs.fktis.fktis.kjerne.Kommando
-import no.eirikhs.fktis.fktis.kjerne.Plan
+import no.eirikhs.fktis.kjerne.Kommando
 import no.eirikhs.fktis.kjerne.NoOpKommando
+import no.eirikhs.fktis.kjerne.Plan
 import no.eirikhs.fktis.kjerne.arbeidsforhold.AaregArbeidsforhold
 import no.eirikhs.fktis.kjerne.arbeidsforhold.Arbeidsforhold
 import no.eirikhs.fktis.kjerne.arbeidsforhold.ArbeidsforholdType
@@ -87,7 +87,7 @@ fun Testdata.sykmelding(
 fun Testdata.kommandoLogg(
     kommandoLoggId: String? = null,
     opprettet: Instant = Instant.parse("2024-01-01T00:00:00Z"),
-    kommando: Kommando = NoOpKommando,
+    kommando: no.eirikhs.fktis.kjerne.Kommando = NoOpKommando,
     plan: Plan = Plan.TOM,
 ) = KommandoLogg(
     kommandoLoggId = kommandoLoggId,

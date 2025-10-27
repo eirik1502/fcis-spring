@@ -1,9 +1,9 @@
 package no.eirikhs.fktis.skall.config
 
-import no.eirikhs.fktis.fktis.kjerne.UtførKommandoSteg
-import no.eirikhs.fktis.fktis.skall.integrasjoner.lagEffektJacksonModule
-import no.eirikhs.fktis.fktis.skall.integrasjoner.lagKommandoJacksonModule
 import no.eirikhs.fktis.kjerne.*
+import no.eirikhs.fktis.kjerne.UtførKommandoSteg
+import no.eirikhs.fktis.skall.integrasjoner.lagEffektJacksonModule
+import no.eirikhs.fktis.skall.integrasjoner.lagKommandoJacksonModule
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

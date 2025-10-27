@@ -1,7 +1,7 @@
 package no.eirikhs.fktis.skall.config
 
-import no.eirikhs.fktis.fktis.skall.*
-import no.eirikhs.fktis.fktis.skall.integrasjoner.SpringTransaksjonBehandler
+import no.eirikhs.fktis.skall.*
+import no.eirikhs.fktis.skall.integrasjoner.SpringTransaksjonBehandler
 import no.eirikhs.fktis.skall.repositories.KommandoLoggRepository
 import no.eirikhs.fktis.skall.repositories.KommandoLoggRepositoryLogger
 import org.springframework.context.annotation.Bean
@@ -11,7 +11,7 @@ import org.springframework.transaction.PlatformTransactionManager
 @Configuration
 class FktisConfig {
     @Bean
-    fun kommandoDistributør(kommandoBehandlere: List<KommandoPlanlegger<*>>): KommandoPlanleggerDistributør =
+    fun kommandoDistributør(kommandoBehandlere: List<no.eirikhs.fktis.skall.KommandoPlanlegger<*>>): KommandoPlanleggerDistributør =
         KommandoPlanleggerDistributør(behandlere = kommandoBehandlere)
 
     @Bean
@@ -22,7 +22,7 @@ class FktisConfig {
         effektDistributør: EffektDistributør,
         kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
         transaksjonBehandler: TransaksjonBehandler,
-        kommandoLogger: KommandoLogger,
+        kommandoLogger: no.eirikhs.fktis.skall.KommandoLogger,
     ): PlanBehandler =
         PlanBehandler(
             effektDistributør = effektDistributør,
@@ -32,7 +32,7 @@ class FktisConfig {
         )
 
     @Bean
-    fun kommandoLogger(kommandoLoggRepository: KommandoLoggRepository): KommandoLogger =
+    fun kommandoLogger(kommandoLoggRepository: KommandoLoggRepository): no.eirikhs.fktis.skall.KommandoLogger =
         KommandoLoggRepositoryLogger(kommandoLoggRepository)
 
     @Bean
@@ -43,8 +43,8 @@ class FktisConfig {
     fun kommandoService(
         kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
         planBehandler: PlanBehandler,
-    ): KommandoService =
-        KommandoServiceImpl(
+    ): no.eirikhs.fktis.skall.KommandoService =
+        no.eirikhs.fktis.skall.KommandoServiceImpl(
             kommandoPlanleggerDistributør = kommandoPlanleggerDistributør,
             planBehandler = planBehandler,
         )

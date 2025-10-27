@@ -1,6 +1,6 @@
 package no.eirikhs.fktis.kjerne.sykmelding
 
-import no.eirikhs.fktis.fktis.kjerne.*
+import no.eirikhs.fktis.kjerne.*
 import no.eirikhs.fktis.kjerne.LagreSykmelding
 import no.eirikhs.fktis.kjerne.SlettSykmelding
 import no.eirikhs.fktis.kjerne.SynkroniserArbeidsforhold

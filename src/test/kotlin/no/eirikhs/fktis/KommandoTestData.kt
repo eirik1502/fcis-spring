@@ -1,7 +1,7 @@
 package no.eirikhs.fktis
 
-import no.eirikhs.fktis.fktis.kjerne.Kommando
 import no.eirikhs.fktis.kjerne.HåndterSykmeldingHendelse
+import no.eirikhs.fktis.kjerne.Kommando
 import no.eirikhs.fktis.kjerne.NoOpKommando
 import no.eirikhs.fktis.kjerne.SynkroniserArbeidsforhold
 import no.eirikhs.fktis.kjerne.sykmelding.EksternSykmelding

@@ -5,10 +5,10 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
 import com.fasterxml.jackson.module.kotlin.readValue
-import no.eirikhs.fktis.fktis.kjerne.Kommando
-import no.eirikhs.fktis.fktis.kjerne.Plan
-import no.eirikhs.fktis.fktis.skall.KommandoLogger
-import no.eirikhs.fktis.fktis.skall.KommandoMetadata
+import no.eirikhs.fktis.kjerne.Kommando
+import no.eirikhs.fktis.kjerne.Plan
+import no.eirikhs.fktis.skall.KommandoLogger
+import no.eirikhs.fktis.skall.KommandoMetadata
 import no.eirikhs.fktis.skall.config.EFFEKT_JACKON_MODULE
 import no.eirikhs.fktis.skall.config.KOMMANDO_JACKSON_MODULE
 import no.eirikhs.fktis.skall.utils.JsonbReadingConverter
@@ -27,7 +27,7 @@ data class KommandoLogg(
     val kommandoLoggId: String? = null,
     val opprettet: Instant = Instant.now(),
     val traceId: String? = null,
-    val kommando: Kommando? = null,
+    val kommando: no.eirikhs.fktis.kjerne.Kommando? = null,
     val plan: Plan,
     val suksess: Boolean = true,
     val feilmelding: String? = null,
@@ -38,13 +38,13 @@ data class KommandoLogg(
 
 class KommandoLoggRepositoryLogger(
     private val repository: KommandoLoggRepository,
-) : KommandoLogger {
+) : no.eirikhs.fktis.skall.KommandoLogger {
     override fun loggKommandoUtførelse(
-        kommando: Kommando?,
+        kommando: no.eirikhs.fktis.kjerne.Kommando?,
         plan: Plan,
         suksess: Boolean,
         feil: Throwable?,
-        metadata: KommandoMetadata?,
+        metadata: no.eirikhs.fktis.skall.KommandoMetadata?,
     ) {
         repository.save(
             KommandoLogg(
@@ -76,12 +76,12 @@ class KommandoLoggConverterConfig {
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
                 .build()
 
-        class JsonbToKommandoConverter : JsonbReadingConverter<Kommando>() {
-            override fun convertValue(value: String): Kommando = objectMapper.readValue(value)
+        class JsonbToKommandoConverter : JsonbReadingConverter<no.eirikhs.fktis.kjerne.Kommando>() {
+            override fun convertValue(value: String): no.eirikhs.fktis.kjerne.Kommando = objectMapper.readValue(value)
         }
 
-        class KommandoToJsonbConverter : JsonbWritingConverter<Kommando>() {
-            override fun convertValue(value: Kommando): String = objectMapper.writeValueAsString(value)
+        class KommandoToJsonbConverter : JsonbWritingConverter<no.eirikhs.fktis.kjerne.Kommando>() {
+            override fun convertValue(value: no.eirikhs.fktis.kjerne.Kommando): String = objectMapper.writeValueAsString(value)
         }
 
         class JsonbToPlanConverter : JsonbReadingConverter<Plan>() {

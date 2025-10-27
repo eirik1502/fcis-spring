@@ -1,7 +1,7 @@
 package no.eirikhs.fktis.skall.porter
 
-import no.eirikhs.fktis.fktis.skall.KommandoService
 import no.eirikhs.fktis.kjerne.ArbeidsforholdNotifikasjonKommando
+import no.eirikhs.fktis.skall.KommandoService
 import org.springframework.stereotype.Component
 
 data class ArbeidsforholdNotifikasjon(
@@ -10,7 +10,7 @@ data class ArbeidsforholdNotifikasjon(
 
 @Component
 class ArbeidsforholdNotifikasjonLytter(
-    private val kommandoService: KommandoService,
+    private val kommandoService: no.eirikhs.fktis.skall.KommandoService,
 ) {
     fun håndter(notifikasjon: ArbeidsforholdNotifikasjon) {
         notifikasjon.fnr.distinct()

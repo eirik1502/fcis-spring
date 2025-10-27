@@ -3,10 +3,10 @@ package no.eirikhs.fktis.testoppsett
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
-import no.eirikhs.fktis.fktis.kjerne.Kommando
-import no.eirikhs.fktis.fktis.kjerne.Plan
-import no.eirikhs.fktis.fktis.skall.KommandoLogger
-import no.eirikhs.fktis.fktis.skall.KommandoMetadata
+import no.eirikhs.fktis.kjerne.Kommando
+import no.eirikhs.fktis.kjerne.Plan
+import no.eirikhs.fktis.skall.KommandoLogger
+import no.eirikhs.fktis.skall.KommandoMetadata
 import no.eirikhs.fktis.skall.config.EFFEKT_JACKON_MODULE
 import no.eirikhs.fktis.skall.config.KOMMANDO_JACKSON_MODULE
 import no.eirikhs.fktis.utils.logger

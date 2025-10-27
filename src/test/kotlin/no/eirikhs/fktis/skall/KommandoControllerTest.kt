@@ -2,7 +2,7 @@ package no.eirikhs.fktis.skall
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import no.eirikhs.fktis.KommandoTestData
-import no.eirikhs.fktis.fktis.skall.KommandoService
+import no.eirikhs.fktis.skall.KommandoService
 import no.eirikhs.fktis.testoppsett.E2eTestOppsett
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DynamicTest
@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.post
 
 class KommandoControllerTest : E2eTestOppsett() {
     @MockitoBean
-    private lateinit var kommandoService: KommandoService
+    private lateinit var kommandoService: no.eirikhs.fktis.skall.KommandoService
 
     @Autowired
     private lateinit var mockMvc: MockMvc

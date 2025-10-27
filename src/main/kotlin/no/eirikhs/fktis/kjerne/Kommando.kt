@@ -1,35 +1,35 @@
 package no.eirikhs.fktis.kjerne
 
-import no.eirikhs.fktis.fktis.kjerne.Kommando
+import no.eirikhs.fktis.kjerne.Kommando
 import no.eirikhs.fktis.kjerne.bekreftelse.BrukerSvar
 import no.eirikhs.fktis.kjerne.sykmelding.EksternSykmelding
 import kotlin.reflect.KClass
 
-data object NoOpKommando : Kommando
+data object NoOpKommando : no.eirikhs.fktis.kjerne.Kommando
 
 data class HåndterSykmeldingHendelse(
     val sykmeldingId: String,
     val sykmelding: EksternSykmelding? = null,
-) : Kommando
+) : no.eirikhs.fktis.kjerne.Kommando
 
 data class SynkroniserArbeidsforhold(
     val fnr: String,
-) : Kommando
+) : no.eirikhs.fktis.kjerne.Kommando
 
 data class ArbeidsforholdNotifikasjonKommando(
     val fnr: List<String>,
-) : Kommando
+) : no.eirikhs.fktis.kjerne.Kommando
 
 data class AvbrytSykmelding(
     val sykmeldingId: String,
     val fnr: String,
-) : Kommando
+) : no.eirikhs.fktis.kjerne.Kommando
 
 data class BekreftSykmelding(
     val sykmeldingId: String,
     val fnr: String,
     val brukerSvar: BrukerSvar? = null,
-) : Kommando
+) : no.eirikhs.fktis.kjerne.Kommando
 
 // class KommandoRegister(
 //    val kommandoVedNavn: Map<String, KClass<out Kommando>>,

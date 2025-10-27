@@ -2,10 +2,10 @@ package no.eirikhs.fktis.kjerne
 
 import no.eirikhs.fktis.Testdata
 import no.eirikhs.fktis.eksternSykmelding
-import no.eirikhs.fktis.fktis.kjerne.Kommando
-import no.eirikhs.fktis.fktis.kjerne.Plan
 import no.eirikhs.fktis.fktistest.kjerne.shouldContainEffekt
 import no.eirikhs.fktis.fktistest.kjerne.shouldContainUtførKommandoEffekt
+import no.eirikhs.fktis.kjerne.Kommando
+import no.eirikhs.fktis.kjerne.Plan
 import no.eirikhs.fktis.kjerne.sykmelding.behandleSykmeldingHendelse
 import no.eirikhs.fktis.sykmelding
 import org.amshove.kluent.fail
