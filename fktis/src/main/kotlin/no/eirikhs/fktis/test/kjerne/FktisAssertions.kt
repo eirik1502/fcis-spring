@@ -1,4 +1,4 @@
-package no.eirikhs.fktis.fktistest.kjerne
+package no.eirikhs.fktis.test.kjerne
 
 import no.eirikhs.fktis.kjerne.Plan
 import no.eirikhs.fktis.kjerne.UtførKommandoSteg
