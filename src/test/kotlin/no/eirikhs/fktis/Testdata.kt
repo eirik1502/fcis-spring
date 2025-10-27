@@ -73,11 +73,13 @@ fun Testdata.eksternSykmelding(
 )
 
 fun Testdata.sykmelding(
+    databaseId: String? = null,
     sykmeldingId: String = "sykmeldingId",
     fnr: String = "fnr",
     fom: LocalDate = LocalDate.parse("2025-08-01"),
     tom: LocalDate = LocalDate.parse("2025-08-30"),
 ) = Sykmelding(
+    databaseId = databaseId,
     sykmeldingId = sykmeldingId,
     fnr = fnr,
     fom = fom,
