@@ -1,16 +1,8 @@
 package no.eirikhs.fktis.kjerne
 
-import no.eirikhs.fktis.kjerne.Kommando
 import no.eirikhs.fktis.kjerne.bekreftelse.BrukerSvar
-import no.eirikhs.fktis.kjerne.sykmelding.EksternSykmelding
-import kotlin.reflect.KClass
 
 data object NoOpKommando : no.eirikhs.fktis.kjerne.Kommando
-
-data class HåndterSykmeldingHendelse(
-    val sykmeldingId: String,
-    val sykmelding: EksternSykmelding? = null,
-) : no.eirikhs.fktis.kjerne.Kommando
 
 data class SynkroniserArbeidsforhold(
     val fnr: String,

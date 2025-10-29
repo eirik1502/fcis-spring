@@ -1,6 +1,7 @@
 package no.eirikhs.fktis
 
-import no.eirikhs.fktis.kjerne.HåndterSykmeldingHendelse
+import no.eirikhs.fktis.kjerne.HåndterSykmeldingHendelseKommando
+import no.eirikhs.fktis.kjerne.HåndterSykmeldingHendelseKommandoTest
 import no.eirikhs.fktis.kjerne.Kommando
 import no.eirikhs.fktis.kjerne.NoOpKommando
 import no.eirikhs.fktis.kjerne.SynkroniserArbeidsforhold
@@ -12,7 +13,7 @@ object KommandoTestData {
     fun håndterSykmeldingHendelse(
         sykmeldingId: String = "sykmeldingId",
         sykmelding: EksternSykmelding? = Testdata.eksternSykmelding(),
-    ) = HåndterSykmeldingHendelse(
+    ) = HåndterSykmeldingHendelseKommando(
         sykmeldingId = sykmeldingId,
         sykmelding = sykmelding,
     )

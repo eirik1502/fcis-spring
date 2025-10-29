@@ -1,7 +1,6 @@
 package no.eirikhs.fktis.skall.config
 
 import no.eirikhs.fktis.kjerne.*
-import no.eirikhs.fktis.kjerne.UtførKommandoSteg
 import no.eirikhs.fktis.skall.integrasjoner.lagEffektJacksonModule
 import no.eirikhs.fktis.skall.integrasjoner.lagKommandoJacksonModule
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
@@ -21,7 +20,7 @@ val KOMMANDO_JACKSON_MODULE =
     lagKommandoJacksonModule(
         mapOf(
             "NOOP" to NoOpKommando::class,
-            "HÅNDTER_SYKMELDING_HENDELSE" to HåndterSykmeldingHendelse::class,
+            "HÅNDTER_SYKMELDING_HENDELSE" to HåndterSykmeldingHendelseKommando::class,
             "SYNKRONISER_ARBEIDSFORHOLD" to SynkroniserArbeidsforhold::class,
             "ARBEIDSFORHOLD_NOTIFIKASJON" to ArbeidsforholdNotifikasjonKommando::class,
         ),

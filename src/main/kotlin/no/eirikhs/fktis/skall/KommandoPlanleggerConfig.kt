@@ -1,13 +1,13 @@
 package no.eirikhs.fktis.skall
 
 import no.eirikhs.fktis.kjerne.ArbeidsforholdNotifikasjonKommando
-import no.eirikhs.fktis.kjerne.HåndterSykmeldingHendelse
+import no.eirikhs.fktis.kjerne.HåndterSykmeldingHendelseKommando
 import no.eirikhs.fktis.kjerne.NoOpKommando
 import no.eirikhs.fktis.kjerne.Plan
 import no.eirikhs.fktis.kjerne.SynkroniserArbeidsforhold
 import no.eirikhs.fktis.kjerne.arbeidsforhold.håndterArbeidsforholdNotifikasjon
 import no.eirikhs.fktis.kjerne.arbeidsforhold.synkroniserArbeidsforhold
-import no.eirikhs.fktis.kjerne.sykmelding.behandleSykmeldingHendelse
+import no.eirikhs.fktis.kjerne.håndterSykmeldingHendelse
 import no.eirikhs.fktis.skall.hjelpere.lagKommandoPlanlegger
 import no.eirikhs.fktis.skall.porter.AaregKlient
 import no.eirikhs.fktis.skall.repositories.ArbeidsforholdRepository
@@ -25,8 +25,8 @@ class KommandoPlanleggerConfig {
 
     @Bean
     fun behandleSykmeldingHendelseKommandoPlanlegger(sykmeldingRepository: SykmeldingRepository) =
-        lagKommandoPlanlegger<HåndterSykmeldingHendelse> { kommando ->
-            behandleSykmeldingHendelse(
+        lagKommandoPlanlegger<HåndterSykmeldingHendelseKommando> { kommando ->
+            håndterSykmeldingHendelse(
                 sykmeldingId = kommando.sykmeldingId,
                 eksternSykmelding = kommando.sykmelding,
                 eksisterendeSykmelding = sykmeldingRepository.findBySykmeldingId(kommando.sykmeldingId),

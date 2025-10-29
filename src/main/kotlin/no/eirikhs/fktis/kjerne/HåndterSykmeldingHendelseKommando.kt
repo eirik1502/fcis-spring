@@ -1,11 +1,26 @@
-package no.eirikhs.fktis.kjerne.sykmelding
+package no.eirikhs.fktis.kjerne
 
-import no.eirikhs.fktis.kjerne.*
-import no.eirikhs.fktis.kjerne.LagreSykmelding
-import no.eirikhs.fktis.kjerne.SlettSykmelding
-import no.eirikhs.fktis.kjerne.SynkroniserArbeidsforhold
+import no.eirikhs.fktis.kjerne.sykmelding.EksternSykmelding
+import no.eirikhs.fktis.kjerne.sykmelding.Sykmelding
 
-fun behandleSykmeldingHendelse(
+data class HåndterSykmeldingHendelseKommando(
+    val sykmeldingId: String,
+    val sykmelding: EksternSykmelding? = null,
+) : Kommando
+
+fun håndterSykmeldingHendelseSpørring(kommando: HåndterSykmeldingHendelseKommando) =
+    byggSpørring {
+        val sykmelding by FinnSykmelding(sykmeldingId = kommando.sykmeldingId)
+        bind {
+            håndterSykmeldingHendelse(
+                sykmeldingId = kommando.sykmeldingId,
+                eksternSykmelding = kommando.sykmelding,
+                eksisterendeSykmelding = sykmelding,
+            )
+        }
+    }
+
+fun håndterSykmeldingHendelse(
     sykmeldingId: String,
     eksternSykmelding: EksternSykmelding? = null,
     eksisterendeSykmelding: Sykmelding? = null,
