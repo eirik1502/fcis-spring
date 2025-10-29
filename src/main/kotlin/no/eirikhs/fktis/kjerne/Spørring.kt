@@ -8,11 +8,6 @@ import kotlin.reflect.KProperty
 
 abstract class Spørring<R> {
     var resultat: R? = null
-
-    operator fun getValue(
-        thisRef: Any?,
-        property: KProperty<*>,
-    ): R = checkNotNull(resultat) { "Spørring ikke populert" }
 }
 
 data class FinnSykmelding(
@@ -78,22 +73,12 @@ class SpørringBygger {
     private val spørringer: MutableList<Spørring<*>> = mutableListOf()
     private var bindFunksjon: (() -> Plan)? = null
 
-    fun <E> spørring(spørring: Spørring<E>): Spørring<E> {
+    infix fun <E> spørring(spørring: Spørring<E>): Lazy<E> {
         spørringer.add(spørring)
-        return spørring
+        return lazy { spørring.resultat ?: error("Spørring ikke gjennomført") }
     }
 
-    operator fun <E> Spørring<E>.provideDelegate(
-        thisRef: Any?,
-        prop: KProperty<*>,
-    ): Spørring<E> {
-        spørring(this)
-        return this
-    }
-
-    operator fun <E> Spørring<E>.unaryPlus(): Spørring<E> = spørring(this)
-
-    operator fun <E> Spørring<E>.invoke(): Spørring<E> = spørring(this)
+    operator fun <E> Spørring<E>.unaryPlus(): Lazy<E> = spørring(this)
 
     fun bind(bindFunksjon: () -> Plan) {
         this.bindFunksjon = bindFunksjon
@@ -114,7 +99,7 @@ fun byggSpørring(block: SpørringBygger.() -> Unit): SpørringBeskrivelse {
 
 fun synkroniserArbeidsforholdSpørring(kommando: SynkroniserArbeidsforhold) =
     byggSpørring {
-        val arbeidsforhold by HentMangeAaregArbeidsforhold(fnr = kommando.fnr)
+        val arbeidsforhold by +HentMangeAaregArbeidsforhold(fnr = kommando.fnr)
         bind {
             synkroniserArbeidsforhold(
                 fnr = kommando.fnr,

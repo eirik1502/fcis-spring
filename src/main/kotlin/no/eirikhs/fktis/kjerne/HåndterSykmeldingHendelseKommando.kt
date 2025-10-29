@@ -10,7 +10,7 @@ data class HåndterSykmeldingHendelseKommando(
 
 fun håndterSykmeldingHendelseSpørring(kommando: HåndterSykmeldingHendelseKommando) =
     byggSpørring {
-        val sykmelding by FinnSykmelding(sykmeldingId = kommando.sykmeldingId)
+        val sykmelding by +FinnSykmelding(sykmeldingId = kommando.sykmeldingId)
         bind {
             håndterSykmeldingHendelse(
                 sykmeldingId = kommando.sykmeldingId,
