@@ -1,5 +1,6 @@
 package no.eirikhs.fktis.skall
 
+import no.eirikhs.fktis.kjerne.AvhengighetPlan
 import no.eirikhs.fktis.kjerne.Kommando
 import no.eirikhs.fktis.kjerne.Plan
 
@@ -24,7 +25,8 @@ data class KommandoMetadata(
 )
 
 class KommandoServiceImpl(
-    private val kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
+    private val kommandoRegister: KommandoRegister,
+    private val avhengighetPlanLøser: AvhengighetPlanLøser,
     private val planBehandler: PlanBehandler,
 ) : KommandoService {
     override fun utførKommando(
@@ -35,8 +37,23 @@ class KommandoServiceImpl(
         utførPlan(plan, kommando = kommando)
     }
 
+    fun planleggAvhengigheter(kommando: Kommando): AvhengighetPlan<*> {
+        val registrertKommando = kommandoRegister.finnKommando(kommando)
+        val plan = registrertKommando.avhengigheter(kommando)
+        return plan
+    }
+
+    fun hentAvhengigheter(kommando: Kommando): Any {
+        val registrertKommando = kommandoRegister.finnKommando(kommando)
+        val avhengighetPlan = registrertKommando.avhengigheter(kommando)
+        val avhengigheter = avhengighetPlanLøser.løs(avhengighetPlan)
+        return avhengigheter
+    }
+
     override fun planleggKommando(kommando: Kommando): Plan {
-        val plan = kommandoPlanleggerDistributør.planlegg(kommando)
+        val avhengigheter = hentAvhengigheter(kommando)
+        val registrertKommando = kommandoRegister.finnKommando(kommando)
+        val plan = registrertKommando.planlegg(kommando, avhengigheter)
         return plan
     }
 

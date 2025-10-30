@@ -8,40 +8,39 @@ data class HåndterSykmeldingHendelseKommando(
     val sykmelding: EksternSykmelding? = null,
 ) : Kommando
 
-fun håndterSykmeldingHendelseSpørring(kommando: HåndterSykmeldingHendelseKommando) =
-    byggSpørring {
-        val sykmelding by +FinnSykmelding(sykmeldingId = kommando.sykmeldingId)
-        bind {
-            håndterSykmeldingHendelse(
-                sykmeldingId = kommando.sykmeldingId,
-                eksternSykmelding = kommando.sykmelding,
-                eksisterendeSykmelding = sykmelding,
-            )
-        }
+data class HåndterSykmeldingHendelseDeps(
+    val eksisterendeSykmelding: Sykmelding? = null,
+)
+
+fun håndterSykmeldingHendelseAvhengigheter(kommando: HåndterSykmeldingHendelseKommando) =
+    byggAvhengigheter<HåndterSykmeldingHendelseDeps> {
+        bind(
+            HåndterSykmeldingHendelseDeps::eksisterendeSykmelding,
+            FinnSykmelding(sykmeldingId = kommando.sykmeldingId),
+        )
     }
 
-fun håndterSykmeldingHendelse(
-    sykmeldingId: String,
-    eksternSykmelding: EksternSykmelding? = null,
-    eksisterendeSykmelding: Sykmelding? = null,
+fun håndterSykmeldingHendelsePlanlegger(
+    kommando: HåndterSykmeldingHendelseKommando,
+    deps: HåndterSykmeldingHendelseDeps,
 ) = byggPlan {
     when {
-        eksternSykmelding != null && eksisterendeSykmelding == null -> {
-            +LagreSykmelding(sykmelding = eksternSykmelding.tilSykmelding())
+        kommando.sykmelding != null && deps.eksisterendeSykmelding == null -> {
+            +LagreSykmelding(sykmelding = kommando.sykmelding.tilSykmelding())
             +SynkroniserArbeidsforhold(
-                fnr = eksternSykmelding.fnr,
+                fnr = kommando.sykmelding.fnr,
             )
         }
-        eksternSykmelding != null && eksisterendeSykmelding != null -> {
+        kommando.sykmelding != null && deps.eksisterendeSykmelding != null -> {
             +LagreSykmelding(
                 sykmelding =
-                    eksternSykmelding
+                    kommando.sykmelding
                         .tilSykmelding()
-                        .copy(databaseId = eksisterendeSykmelding.databaseId),
+                        .copy(databaseId = deps.eksisterendeSykmelding.databaseId),
             )
         }
         else -> {
-            +SlettSykmelding(sykmeldingId = sykmeldingId)
+            +SlettSykmelding(sykmeldingId = kommando.sykmeldingId)
         }
     }
 }

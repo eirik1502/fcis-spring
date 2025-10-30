@@ -11,8 +11,8 @@ import org.springframework.transaction.PlatformTransactionManager
 @Configuration
 class FktisConfig {
     @Bean
-    fun kommandoDistributør(kommandoBehandlere: List<no.eirikhs.fktis.skall.KommandoPlanlegger<*>>): KommandoPlanleggerDistributør =
-        KommandoPlanleggerDistributør(behandlere = kommandoBehandlere)
+    fun avhengighetPlanLøser(avhengigheter: List<AvhengighetLøser<*, *>>): AvhengighetPlanLøser =
+        AvhengighetPlanLøser(avhengighetLøsere = avhengigheter)
 
     @Bean
     fun effektDistributør(effektBehandlere: List<EffektBehandler<*>>): EffektDistributør = EffektDistributør(behandlere = effektBehandlere)
@@ -20,13 +20,11 @@ class FktisConfig {
     @Bean
     fun planBehandler(
         effektDistributør: EffektDistributør,
-        kommandoPlanleggerDistributør: KommandoPlanleggerDistributør,
         transaksjonBehandler: TransaksjonBehandler,
-        kommandoLogger: no.eirikhs.fktis.skall.KommandoLogger,
+        kommandoLogger: KommandoLogger,
     ): PlanBehandler =
         PlanBehandler(
             effektDistributør = effektDistributør,
-            kommandoPlanleggerDistributør = kommandoPlanleggerDistributør,
             transaksjonBehandler = transaksjonBehandler,
             kommandoLogger = kommandoLogger,
         )

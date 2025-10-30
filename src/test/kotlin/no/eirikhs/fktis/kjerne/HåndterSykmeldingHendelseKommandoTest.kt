@@ -24,25 +24,33 @@ class HåndterSykmeldingHendelseKommandoTest {
         @Test
         fun `burde lagre ny sykmelding`() {
             håndterSykmeldingHendelse(
-                sykmeldingId = "id-1",
-                eksternSykmelding = Testdata.eksternSykmelding(sykmeldingId = "id-1"),
-                eksisterendeSykmelding = null,
+                HåndterSykmeldingHendelseKommando(
+                    sykmeldingId = "id-1",
+                    sykmelding = Testdata.eksternSykmelding(sykmeldingId = "id-1"),
+                ),
+                HåndterSykmeldingHendelseDeps(
+                    eksisterendeSykmelding = null,
+                ),
             ).shouldContainEffekt<LagreSykmelding>()
         }
 
         @Test
         fun `burde oppdatere eksisterende sykmelding`() {
             håndterSykmeldingHendelse(
-                sykmeldingId = "id-1",
-                eksternSykmelding = Testdata.eksternSykmelding(sykmeldingId = "id-1"),
-                eksisterendeSykmelding = Testdata.sykmelding(sykmeldingId = "id-1"),
+                HåndterSykmeldingHendelseKommando(
+                    sykmeldingId = "id-1",
+                    sykmelding = Testdata.eksternSykmelding(sykmeldingId = "id-1"),
+                ),
+                HåndterSykmeldingHendelseDeps(
+                    eksisterendeSykmelding = Testdata.sykmelding(sykmeldingId = "id-1"),
+                ),
             ).shouldContainEffekt<LagreSykmelding>()
         }
     }
 
-    fun SpørringBeskrivelse.burdeInneholde(spørring: Spørring<*>) {
-        if (!this.spørringer.contains(spørring)) {
-            throw AssertionError("Forventet at spørringBeskrivelse skulle inneholde spørring: $spørring. Spørringer: ${this.spørringer}")
+    fun SpørringBeskrivelse.burdeInneholde(avhengighet: Avhengighet<*>) {
+        if (!this.spørringer.contains(avhengighet)) {
+            throw AssertionError("Forventet at spørringBeskrivelse skulle inneholde spørring: $avhengighet. Spørringer: ${this.spørringer}")
         }
     }
 }

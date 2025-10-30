@@ -12,9 +12,13 @@ class SykmeldingTest {
     fun `burde lagre ny sykmelding`() {
         val plan =
             håndterSykmeldingHendelse(
-                sykmeldingId = "1",
-                eksternSykmelding = Testdata.eksternSykmelding(),
-                eksisterendeSykmelding = null,
+                HåndterSykmeldingHendelseKommando(
+                    sykmeldingId = "1",
+                    sykmelding = Testdata.eksternSykmelding(),
+                ),
+                HåndterSykmeldingHendelseDeps(
+                    eksisterendeSykmelding = null,
+                ),
             )
 
         plan.shouldContainEffekt<LagreSykmelding>()
@@ -25,9 +29,13 @@ class SykmeldingTest {
     fun `burde oppdatere sykmelding`() {
         val plan =
             håndterSykmeldingHendelse(
-                sykmeldingId = "1",
-                eksternSykmelding = Testdata.eksternSykmelding(),
-                eksisterendeSykmelding = Testdata.sykmelding(),
+                HåndterSykmeldingHendelseKommando(
+                    sykmeldingId = "1",
+                    sykmelding = Testdata.eksternSykmelding(),
+                ),
+                HåndterSykmeldingHendelseDeps(
+                    eksisterendeSykmelding = Testdata.sykmelding(),
+                ),
             )
 
         plan.shouldContainEffekt<LagreSykmelding>()
@@ -37,9 +45,13 @@ class SykmeldingTest {
     fun `burde tombstone sykmelding`() {
         val plan =
             håndterSykmeldingHendelse(
-                sykmeldingId = "1",
-                eksternSykmelding = null,
-                eksisterendeSykmelding = null,
+                HåndterSykmeldingHendelseKommando(
+                    sykmeldingId = "1",
+                    sykmelding = null,
+                ),
+                HåndterSykmeldingHendelseDeps(
+                    eksisterendeSykmelding = null,
+                ),
             )
 
         plan.shouldContainEffekt<SlettSykmelding>()
